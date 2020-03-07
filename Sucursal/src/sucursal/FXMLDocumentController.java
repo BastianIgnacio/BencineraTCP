@@ -5,14 +5,14 @@
  */
 package sucursal;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,12 +76,17 @@ public class FXMLDocumentController implements Initializable {
             {
                 System.out.println("Esperando..");
                 sc = servidor.accept();
-                in = new ObjectInputStream(sc.getInputStream());
+                out= new ObjectOutputStream(sc.getOutputStream());
+                System.out.println("Creando la trans");
+                Transaccion t = crear();
+                out.writeObject(t);
+                
+                //in = new ObjectInputStream(sc.getInputStream());
                 
                 
                 
                 sc.close();
-                System.out.println("servidor cerrado");
+                System.out.println("socket Cerrado");
             } 
             
         } catch (IOException ex) {
@@ -89,4 +94,16 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
+    private Transaccion crear()
+    {
+        Timestamp time = null;
+        String idTransaccion = "11";
+        String tipoCombustible = "diesel";
+        int litros = 15;
+        int precioPorLitro= 500;
+        int total=15000;
+        
+        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
+        return t;
+    }
 }

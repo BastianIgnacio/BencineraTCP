@@ -14,6 +14,7 @@ import java.sql.Timestamp;
  */
 public class Transaccion implements Serializable{
 
+    private static final long serialVersionUID = 6529685098267757690L;
     private Timestamp time;
     private String id;
     private String tipoCombustible;
@@ -28,6 +29,10 @@ public class Transaccion implements Serializable{
         this.litros = litros;
         this.precioPorLitro = precioPorLitro;
         this.total = total;
+    }
+
+    Transaccion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Timestamp getTime() {

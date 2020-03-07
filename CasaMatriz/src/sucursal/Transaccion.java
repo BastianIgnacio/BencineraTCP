@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package casamatriz;
+package sucursal;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -14,6 +14,7 @@ import java.sql.Timestamp;
  */
 public class Transaccion implements Serializable{
 
+    private static final long serialVersionUID = 6529685098267757690L;
     private Timestamp time;
     private String id;
     private String tipoCombustible;

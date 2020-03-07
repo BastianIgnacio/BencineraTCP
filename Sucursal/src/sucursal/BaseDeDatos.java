@@ -9,6 +9,10 @@ package sucursal;
  *
  * @author macbook
  */
-public class BaseDeDatos {
+public class BaseDeDatos 
+{
+    
+    
+    
     
 }

@@ -5,13 +5,13 @@
  */
 package casamatriz;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import sucursal.Transaccion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
     }    
 
     @FXML
-    private void buttonAction(ActionEvent event) {
+    private void buttonAction(ActionEvent event) throws ClassNotFoundException {
         
         if(event.getSource()==this.establecer_cliente)
         {
@@ -76,6 +76,9 @@ public class FXMLDocumentController implements Initializable {
         if(event.getSource()==this.modificar_93)
         {
             System.out.println("modificar 93");
+            Transaccion tr = crear();
+            
+            
         
         }
         if(event.getSource()==this.modificar_95)
@@ -99,7 +102,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
     
-    private void establecerConeccionCliente()
+    private void establecerConeccionCliente() throws ClassNotFoundException
     {
         final String HOST = "127.0.0.1";
         final int PUERTO = 5000;
@@ -108,8 +111,16 @@ public class FXMLDocumentController implements Initializable {
         
         try {
             Socket sc = new Socket(HOST,PUERTO);
+            
+            System.out.println("aasss");
+            //Flujo para recibir objetos
             in = new ObjectInputStream(sc.getInputStream());
-            out = new ObjectOutputStream(sc.getOutputStream());
+            System.out.println("svvvvvvv");
+            Transaccion t = (Transaccion) in.readObject();
+            System.out.println("asdddddd");
+            System.out.println("Objeto Recibido en casa matriz =" + t.getId());
+            
+            //out = new ObjectOutputStream(sc.getOutputStream());
             
             sc.close();
             System.out.println("Cliente cerrado");
@@ -117,11 +128,19 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        
-        
-        
-        
+}
     
+     private Transaccion crear()
+    {
+        Timestamp time = null;
+        String idTransaccion = "11";
+        String tipoCombustible = "diesel";
+        int litros = 15;
+        int precioPorLitro= 500;
+        int total=15000;
+        
+        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
+        return t;
     }
     
     
