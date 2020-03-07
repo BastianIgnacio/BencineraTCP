@@ -10,17 +10,18 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="casamatriz.FXMLDocumentController">
    <left>
-      <VBox prefHeight="535.0" prefWidth="144.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="521.0" prefWidth="150.0" spacing="10.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="preciosActuales" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Precios Actuales" />
-            <Button fx:id="modificar_93" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Modificar 93" />
-            <Button fx:id="modificar_95" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Modificar 95" />
-            <Button fx:id="modificar_97" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Modificar 97" />
-            <Button fx:id="modificar_kerosene" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Modificar Kerosene" />
-            <Button fx:id="modificar_diesel" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Modificar Diesel" />
+            <Button fx:id="preciosActuales" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Precios Actuales" />
+            <Button fx:id="modificar_93" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 93" />
+            <Button fx:id="modificar_95" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 95" />
+            <Button fx:id="modificar_97" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 97" />
+            <Button fx:id="modificar_kerosene" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Kerosene" />
+            <Button fx:id="modificar_diesel" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Diesel" />
+            <Button fx:id="establecer_cliente" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Establecer C Cliente" />
          </children>
       </VBox>
    </left>

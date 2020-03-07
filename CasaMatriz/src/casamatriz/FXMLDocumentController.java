@@ -5,13 +5,22 @@
  */
 package casamatriz;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 
 /**
  *
@@ -40,6 +49,14 @@ public class FXMLDocumentController implements Initializable {
     private int precio_97;
     private int precio_diesel;
     private int precio_kerosene;
+    @FXML
+    private Button preciosActuales;
+    @FXML
+    private Button establecer_cliente;
+    @FXML
+    private BorderPane panelCentro;
+    
+    
     
     
     
@@ -51,6 +68,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void buttonAction(ActionEvent event) {
         
+        if(event.getSource()==this.establecer_cliente)
+        {
+            this.establecerConeccionCliente();
+        
+        }
         if(event.getSource()==this.modificar_93)
         {
             System.out.println("modificar 93");
@@ -76,5 +98,33 @@ public class FXMLDocumentController implements Initializable {
              System.out.println("modificar diesel");
         }
     }
+    
+    private void establecerConeccionCliente()
+    {
+        final String HOST = "127.0.0.1";
+        final int PUERTO = 5000;
+        ObjectInputStream in;
+        ObjectOutputStream out;
+        
+        try {
+            Socket sc = new Socket(HOST,PUERTO);
+            in = new ObjectInputStream(sc.getInputStream());
+            out = new ObjectOutputStream(sc.getOutputStream());
+            
+            sc.close();
+            System.out.println("Cliente cerrado");
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+        
+        
+    
+    }
+    
+    
+    
     
 }
