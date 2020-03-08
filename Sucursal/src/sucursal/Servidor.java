@@ -45,8 +45,10 @@ public class Servidor implements Runnable {
                 Transaccion t = crear();
                 out.writeObject(t);
                 
-                //in = new ObjectInputStream(sc.getInputStream());
-                
+                in = new ObjectInputStream(sc.getInputStream());
+                Transaccion t2 = (Transaccion) in.readObject();
+                System.out.println(t2.getTipoCombustible());
+                 System.out.println(t2.getLitros());
                 
                 
                 System.out.println("socket Cerrado");
