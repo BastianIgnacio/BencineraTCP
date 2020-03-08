@@ -70,13 +70,16 @@ public class FXMLDocumentController implements Initializable {
         final String HOST = "127.0.0.1";
         final int PUERTO = 5000;
         ObjectOutputStream out;
-        
+        ObjectInputStream in;
         try {
             Socket sc = new Socket(HOST,PUERTO);
             
             System.out.println("aasss");
             //Flujo para recibir objetos
             out= new ObjectOutputStream(sc.getOutputStream());
+            in = new ObjectInputStream(sc.getInputStream());
+            Transaccion trans = (Transaccion)in.readObject();
+            System.out.println("Transaccion recibidad: " + trans.getId());
             System.out.println("Creando la trans"); 
             out.writeObject(t);
             
