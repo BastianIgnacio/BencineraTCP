@@ -62,36 +62,8 @@ public class FXMLDocumentController implements Initializable {
     
     private void iniciarServidor()
     {
-        ServerSocket servidor = null;
-        Socket sc = null;
-        final int PUERTO = 5000;
-        
-        ObjectInputStream in;
-        ObjectOutputStream out;
-        
-        try {
-            servidor = new ServerSocket(PUERTO);
-            System.out.println("Servidor Iniciado");
-            while(true)
-            {
-                System.out.println("Esperando..");
-                sc = servidor.accept();
-                out= new ObjectOutputStream(sc.getOutputStream());
-                System.out.println("Creando la trans");
-                Transaccion t = crear();
-                out.writeObject(t);
-                
-                //in = new ObjectInputStream(sc.getInputStream());
-                
-                
-                
-                sc.close();
-                System.out.println("socket Cerrado");
-            } 
-            
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Thread a = new Thread(new Servidor());
+        a.start();
     }
     
     private Transaccion crear()
