@@ -112,12 +112,9 @@ public class FXMLDocumentController implements Initializable {
         try {
             Socket sc = new Socket(HOST,PUERTO);
             
-            System.out.println("aasss");
             //Flujo para recibir objetos
             in = new ObjectInputStream(sc.getInputStream());
-            System.out.println("svvvvvvv");
             Transaccion t = (Transaccion) in.readObject();
-            System.out.println("asdddddd");
             System.out.println("Objeto Recibido en casa matriz =" + t.getId());
             
             //out = new ObjectOutputStream(sc.getOutputStream());

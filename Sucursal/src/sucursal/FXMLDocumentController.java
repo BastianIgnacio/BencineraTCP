@@ -53,10 +53,14 @@ public class FXMLDocumentController implements Initializable {
         if(event.getSource()==this.transacciones)
         {
             System.out.println("transacciones");
+            
         }
         if(event.getSource()==this.precios)
         {
             System.out.println("precios");
+            BaseDeDatos bd = BaseDeDatos.crearInstancia();
+            bd.insertSurtidor(1, 2, 3, 4, 5);
+            bd.getSurtidores();
         }
     }
     
