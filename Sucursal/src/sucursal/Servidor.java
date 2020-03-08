@@ -24,9 +24,11 @@ import sucursal.Transaccion;
  */
 public class Servidor implements Runnable {
 
+    Informacion info;
     BaseDeDatos bd;
     public Servidor(){
         this.bd = BaseDeDatos.crearInstancia();
+        this.info = new Informacion(0,0,0,0,0);
     }
     @Override
     public void run() {
@@ -46,18 +48,30 @@ public class Servidor implements Runnable {
                 sc = servidor.accept();
                 if(sc.isConnected()){
                     System.out.println("Cliente conectado");
+                    
                 }
+                out = new ObjectOutputStream(sc.getOutputStream());
                 in = new ObjectInputStream(sc.getInputStream());
                 
-                Object obj = in.readObject();
-                System.out.println("Objeto leido " + obj.getClass().toString());
-                if(obj instanceof Informacion){
-                    Informacion info = (Informacion)obj;
-                    System.out.println(info);
-                }else if(obj instanceof Transaccion){
-                    Transaccion trans = (Transaccion)obj;
-                    System.out.println(trans);
-                }
+                    Object obj = in.readObject();
+                    System.out.println("Objeto leido " + obj.getClass().toString());
+                    if(obj instanceof Informacion){
+                        Informacion info = (Informacion)obj;
+                        this.info = info;
+                        System.out.println(info);
+                    }else if(obj instanceof Transaccion){
+                        Transaccion trans = (Transaccion)obj;
+                        out.writeObject(this.info);
+                        System.out.println(trans);
+                    }else if(obj instanceof String){
+                        String str = (String)obj;
+                        System.out.println("Comando recibido: " + str);
+                        switch(str){
+                            case "actualizar_precios":
+                                out.writeObject(this.info);
+                                break;
+                        }
+                    }
                     /*
                     int surtidor = trans.getRefSurtidor();
                     if(!this.bd.checkSurtidor(surtidor)){

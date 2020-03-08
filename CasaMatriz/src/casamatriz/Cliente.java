@@ -40,7 +40,6 @@ public class Cliente implements Runnable{
             
             
             in = new ObjectInputStream(sc.getInputStream());
-
                         
             sc.close();
             System.out.println("Cliente cerrado");

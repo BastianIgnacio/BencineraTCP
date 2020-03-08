@@ -20,8 +20,13 @@ import sucursal.Transaccion;
  */
 public class Cliente implements Runnable{
     Transaccion trans;
+    String comando;
     public void setTransaccion(Transaccion trans){
         this.trans = trans;
+    }
+    
+    public void setComando(String cmd){
+        this.comando = cmd;
     }
     
     @Override
@@ -37,19 +42,23 @@ public class Cliente implements Runnable{
             //Flujo para recibir objetos
             out = new ObjectOutputStream(sc.getOutputStream());
             // Se escribe un objeto Informacion.
-            out.writeObject(this.trans);
-            
+            if(this.trans != null)
+                out.writeObject(this.trans);
+            else
+                out.writeObject(this.comando);
+            out.flush();
             
             in = new ObjectInputStream(sc.getInputStream());
-            Object obj = in.readObject();
-            if(obj instanceof Informacion){
-                Informacion info = (Informacion)obj;
-                System.out.println(info);
-            }else if(obj instanceof Transaccion){
-                Transaccion trans = (Transaccion)obj;
-                System.out.println(trans);
-            }
-                        
+                Object obj = in.readObject();
+                if(obj instanceof Informacion){
+                    Informacion info = (Informacion)obj;
+                    SharedInfo.info = info;
+                    System.out.println(info);
+                }else if(obj instanceof Transaccion){
+                    Transaccion trans = (Transaccion)obj;
+                    System.out.println(trans);
+                    System.out.println((String)in.readObject());
+                }
             sc.close();
             System.out.println("Cliente cerrado");
         } catch (Exception ex) {

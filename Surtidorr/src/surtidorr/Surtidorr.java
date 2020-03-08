@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sucursal.Informacion;
 
 /**
  *
@@ -22,6 +23,11 @@ public class Surtidorr extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
+        // Se inicia hilo con comando de actualizacion de precios.
+        SharedInfo.info = new Informacion(0,0,0,0,0);
+        Cliente c = new Cliente();
+        c.setComando("actualizar_precios");
+        new Thread(c).start();
         
         stage.setScene(scene);
         stage.show();

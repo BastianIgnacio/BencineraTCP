@@ -75,9 +75,26 @@ public class FXMLDocumentController implements Initializable {
     {
         Timestamp time = null;
         String idTransaccion = "11";
-        int precioPorLitro= 500;
+        int precioPorLitro= 0;
+        switch(tipoCombustible){
+            case "93":
+                precioPorLitro = SharedInfo.info.getBencina93();
+                break;
+            case "95":
+                precioPorLitro = SharedInfo.info.getBencina95();
+                break;
+            case "97":
+                precioPorLitro = SharedInfo.info.getBencina97();
+                break;
+            case "kerosene":
+                precioPorLitro = SharedInfo.info.getKerosene();
+                break;
+            case "diesel":
+                precioPorLitro = SharedInfo.info.getDiesel();
+                break;
+        }
         int total=litros*precioPorLitro;
-        
+
         Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
         return t;
     }

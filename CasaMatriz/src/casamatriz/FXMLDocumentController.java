@@ -77,6 +77,9 @@ public class FXMLDocumentController implements Initializable {
             
         
         }
+        if(event.getSource()==this.preciosActuales){
+            System.out.println(this.info);
+        }
         if(event.getSource()==this.modificar_93)
         {
             TextInputDialog dialog = new TextInputDialog();
