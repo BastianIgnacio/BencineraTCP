@@ -15,7 +15,7 @@
             <Insets bottom="10.0" left="10.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="iniciarServidor" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Iniciar Servidor" />
+            <Button fx:id="iniciarServidor" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Surtidores" />
             <Button fx:id="trabajadores" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Trabajadores" />
             <Button fx:id="precios" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="180.0" text="Precios de combustibles" />
          </children>

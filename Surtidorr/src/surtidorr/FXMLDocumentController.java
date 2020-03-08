@@ -43,7 +43,9 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field93.getText());
             Transaccion t = this.crear("93",parseInt(field93.getText()));
-            this.establecerConeccionCliente(t);
+            Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();
             field93.setText("");
         }
         
@@ -51,7 +53,9 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field95.getText());
             Transaccion t = this.crear("95",parseInt(field95.getText()));
-            this.establecerConeccionCliente(t);
+            Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();
             field95.setText("");
         }
         
@@ -59,39 +63,13 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field97.getText());
             Transaccion t = this.crear("97",parseInt(field97.getText()));
-            this.establecerConeccionCliente(t);
+            Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();
             field97.setText("");
         }
         
     }
-    
-     private void establecerConeccionCliente(Transaccion t) throws ClassNotFoundException
-     {
-        final String HOST = "127.0.0.1";
-        final int PUERTO = 5000;
-        ObjectOutputStream out;
-        ObjectInputStream in;
-        try {
-            Socket sc = new Socket(HOST,PUERTO);
-            
-            System.out.println("aasss");
-            //Flujo para recibir objetos
-            out= new ObjectOutputStream(sc.getOutputStream());
-            in = new ObjectInputStream(sc.getInputStream());
-            Transaccion trans = (Transaccion)in.readObject();
-            System.out.println("Transaccion recibidad: " + trans.getId());
-            System.out.println("Creando la trans"); 
-            out.writeObject(t);
-            
-            //out = new ObjectOutputStream(sc.getOutputStream());
-            
-            sc.close();
-            System.out.println("Cliente cerrado");
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-       }
     
     private Transaccion crear(String tipoCombustible,int litros)
     {

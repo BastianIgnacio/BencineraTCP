@@ -48,7 +48,6 @@ public class FXMLDocumentController implements Initializable {
     private void buttonAction(ActionEvent event) {
         if(event.getSource()==this.iniciarServidor)
         {
-            iniciarServidor();
         }
         if(event.getSource()==this.transacciones)
         {
@@ -79,7 +78,7 @@ public class FXMLDocumentController implements Initializable {
         int precioPorLitro= 500;
         int total=15000;
         
-        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
+        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total, 1);
         return t;
     }
 }

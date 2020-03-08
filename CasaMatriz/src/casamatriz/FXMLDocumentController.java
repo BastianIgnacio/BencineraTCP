@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
+import sucursal.Informacion;
 
 /**
  *
@@ -57,12 +60,13 @@ public class FXMLDocumentController implements Initializable {
     private BorderPane panelCentro;
     
     
-    
+    private Informacion info; 
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        this.info = new Informacion(0,0,0,0,0);
     }    
 
     @FXML
@@ -70,20 +74,44 @@ public class FXMLDocumentController implements Initializable {
         
         if(event.getSource()==this.establecer_cliente)
         {
-            this.establecerConeccionCliente();
+            
         
         }
         if(event.getSource()==this.modificar_93)
         {
-            System.out.println("modificar 93");
-            Transaccion tr = crear();
-            
-            
-        
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Modificación precio de bencina 93 octanos");
+            dialog.setHeaderText("Complete la información");
+            dialog.setContentText("Ingrese el nuevo precio para la bencina de 93 octanos:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                int precio = Integer.parseInt(result.get());
+                System.out.println("INFO: Nuevo precio bencina 93 => " + precio);
+                this.info.setBencina93(precio);
+                Cliente cliente = new Cliente();
+                cliente.setInformacion(info);
+                new Thread(cliente).start();
+            }
         }
         if(event.getSource()==this.modificar_95)
         {
-             System.out.println("modificar 95");
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Modificación precio de bencina 95 octanos");
+            dialog.setHeaderText("Complete la información");
+            dialog.setContentText("Ingrese el nuevo precio para la bencina de 95 octanos:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                int precio = Integer.parseInt(result.get());
+                System.out.println("INFO: Nuevo precio bencina 95 => " + precio);
+                this.info.setBencina95(precio);
+                Cliente cliente = new Cliente();
+                cliente.setInformacion(info);
+                new Thread(cliente).start();
+            }
         
         }
         if(event.getSource()==this.modificar_97)
@@ -101,46 +129,4 @@ public class FXMLDocumentController implements Initializable {
              System.out.println("modificar diesel");
         }
     }
-    
-    private void establecerConeccionCliente() throws ClassNotFoundException
-    {
-        final String HOST = "127.0.0.1";
-        final int PUERTO = 5000;
-        ObjectInputStream in;
-        ObjectOutputStream out;
-        
-        try {
-            Socket sc = new Socket(HOST,PUERTO);
-            
-            //Flujo para recibir objetos
-            in = new ObjectInputStream(sc.getInputStream());
-            Transaccion t = (Transaccion) in.readObject();
-            System.out.println("Objeto Recibido en casa matriz =" + t.getId());
-            
-            //out = new ObjectOutputStream(sc.getOutputStream());
-            
-            sc.close();
-            System.out.println("Cliente cerrado");
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-}
-    
-     private Transaccion crear()
-    {
-        Timestamp time = null;
-        String idTransaccion = "11";
-        String tipoCombustible = "diesel";
-        int litros = 15;
-        int precioPorLitro= 500;
-        int total=15000;
-        
-        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
-        return t;
-    }
-    
-    
-    
-    
 }

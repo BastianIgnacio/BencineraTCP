@@ -21,14 +21,20 @@ public class Transaccion implements Serializable{
     private int litros;
     private int precioPorLitro;
     private int total;
+    private int refSurtidor;
     
-    public Transaccion(Timestamp time, String id, String tipoCombustible, int litros, int precioPorLitro, int total) {
+    public Transaccion(Timestamp time, String id, String tipoCombustible, int litros, int precioPorLitro, int total, int refSurtidor) {
         this.time = time;
         this.id = id;
         this.tipoCombustible = tipoCombustible;
         this.litros = litros;
         this.precioPorLitro = precioPorLitro;
         this.total = total;
+        this.refSurtidor = refSurtidor;
+    }
+
+    Transaccion() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Timestamp getTime() {
@@ -77,6 +83,19 @@ public class Transaccion implements Serializable{
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public int getRefSurtidor() {
+        return refSurtidor;
+    }
+
+    public void setRefSurtidor(int refSurtidor) {
+        this.refSurtidor = refSurtidor;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaccion{" + "time=" + time + ", id=" + id + ", tipoCombustible=" + tipoCombustible + ", litros=" + litros + ", precioPorLitro=" + precioPorLitro + ", total=" + total + ", refSurtidor=" + refSurtidor + '}';
     }
     
 }
