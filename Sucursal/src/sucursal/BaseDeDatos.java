@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,23 +128,23 @@ public class BaseDeDatos
             return (rs.getInt(1))+1;
         }catch(Exception ex){
             System.out.println(ex);
-            return -1;
+            return 1;
         }
     }
     
-    public void insertTransaccion(Date fecha, long tipoCombustible, long litros,long precioLitro,long total, int surtidor){
+    public void insertTransaccion(Timestamp fecha, String tipoCombustible, long litros,long precioLitro,long total, int surtidor){
         Statement stmt = null;
         PreparedStatement ps = null;
         try {
             String str = "INSERT INTO Transaccion VALUES(?,?,?,?,?,?,?)";
             ps = con.prepareStatement(str);
             ps.setInt(1, getIdTransaccion());
-            ps.setDate(2, fecha);
-            ps.setLong(3, tipoCombustible);
+            ps.setTimestamp(2, fecha);
+            ps.setString(3, tipoCombustible);
             ps.setLong(4, litros);
             ps.setLong(5, precioLitro);
             ps.setLong(6, total);
-            ps.setInt(7, surtidor);
+            ps.setString(7, String.valueOf(surtidor));
             if(ps.execute()){
                 System.out.println("INFO: Transaccion insertada exitosamente.");
             }
@@ -151,6 +152,108 @@ public class BaseDeDatos
             System.out.println(ex);
         }
     }
+    
+    public void actualizarPrecios(Informacion info){
+        Statement stmt = null;
+        PreparedStatement ps = null;
+        try {
+            int id = checkPrecios();
+            System.out.println("ID ENCONTRADO " + id);
+            if(id == -1){
+                System.out.println("Entro a ingresar preicos");
+                int idprecios = getIdPrecios();
+                String str = "INSERT INTO Precios VALUES(?,?,?,?,?,?,?)";
+                ps = con.prepareStatement(str);
+                
+                ps.setInt(1, idprecios);
+                ps.setLong(2, info.getBencina93()); // 93
+                ps.setLong(3, info.getBencina95()); // 95
+                ps.setLong(4, info.getBencina97()); // 97
+                ps.setLong(5, info.getDiesel()); // diesel
+                ps.setLong(6, info.getKerosene()); // kerosene
+                Date date = new Date(new java.util.Date().getTime());
+                ps.setString(7, date.toString());
+                if(ps.execute()){
+                    System.out.println("INFO: Precios insertados exitosamente.");
+                }
+            }else{
+                System.out.println("Entro a actualizar precios");
+                Date date = new Date(new java.util.Date().getTime());
+                String str = "UPDATE Precios SET precio93=?, precio95=?, precio97=?, precioDiesel=?, precioKerosene=? WHERE id=" + id;
+                ps = con.prepareStatement(str);
+                ps.setLong(1, info.getBencina93()); // 93
+                ps.setLong(2, info.getBencina95()); // 95
+                ps.setLong(3, info.getBencina97()); // 97
+                ps.setLong(4, info.getDiesel()); // diesel
+                ps.setLong(5, info.getKerosene()); // kerosene
+                if(ps.execute()){
+                    System.out.println("INFO: Precios actualizados exitosamente.");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    private int getIdPrecios(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Precios ORDER BY id DESC LIMIT 1";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            if(!rs.isBeforeFirst()){
+                return 0;
+            }
+            else {
+                return rs.getInt(1)+1;
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            return -1;
+        }
+    }
+    
+    public int checkPrecios(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            Date date = new Date(new java.util.Date().getTime());
+            String sql = "SELECT id FROM Precios WHERE fecha='" + date.toString()+"' LIMIT 1;";
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(rs.getInt(1));
+            if(!rs.isBeforeFirst()){
+                return -1;
+            }
+            else {
+                return rs.getInt(1);
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            return -1;
+        }
+             
+    }
+    
+    public void getPrecios(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            Date date = new Date(new java.util.Date().getTime());
+            String sql = "SELECT * FROM Precios WHERE fecha='" + date.toString()+"' LIMIT 1;";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                Informacion info = new Informacion((int)rs.getLong(2),(int)rs.getLong(3),(int)rs.getLong(4),(int)rs.getLong(5),(int)rs.getLong(6));
+                InfoSurtidor.info = info;
+                System.out.println(InfoSurtidor.info);
+                //System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6) + " - " + rs.getString(7));
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
     
     public boolean checkSurtidor(int surtidor){
         Statement stmt = null;
@@ -176,26 +279,36 @@ public class BaseDeDatos
         try {
             stmt = this.con.createStatement();
             String sql = "CREATE TABLE \"Surtidor\" (\n" +
-                        "    id int NOT NULL,\n" +
-                        "    precio93 bigint,\n" +
-                        "    precio95 bigint,\n" +
-                        "    precio97 bigint,\n" +
-                        "    \"precioDiesel\" bigint,\n" +
-                        "    \"precioKerosene\" bigint,\n" +
-                        "    CONSTRAINT \"Surtidor_pkey\" PRIMARY KEY (\"id\")\n" +
-                        ");\n" +
-                        "\n" +
-                        "CREATE TABLE \"Transaccion\" (\n" +
-                        "    id int NOT NULL,\n" +
-                        "    fecha timestamp without time zone,\n" +
-                        "    \"tipoCombustible\" text,\n" +
-                        "    litros bigint,\n" +
-                        "    \"precioPorLitro\" bigint,\n" +
-                        "    total bigint,\n" +
-                        "    \"refSurtidor\" int,\n" +
-                        "    CONSTRAINT \"Transaccion_pkey\" PRIMARY KEY (\"id\"),\n" +
-                        "    CONSTRAINT \"Transaccion_refSurtidor_fkey\" FOREIGN KEY (\"refSurtidor\") REFERENCES \"Surtidor\"(\"id\")\n" +
-                        ");"; 
+"    id int NOT NULL,\n" +
+"    precio93 bigint,\n" +
+"    precio95 bigint,\n" +
+"    precio97 bigint,\n" +
+"    \"precioDiesel\" bigint,\n" +
+"    \"precioKerosene\" bigint,\n" +
+"    CONSTRAINT \"Surtidor_pkey\" PRIMARY KEY (\"id\")\n" +
+");\n" +
+"\n" +
+"CREATE TABLE \"Transaccion\" (\n" +
+"    id int NOT NULL,\n" +
+"    fecha timestamp without time zone,\n" +
+"    \"tipoCombustible\" text,\n" +
+"    litros bigint,\n" +
+"    \"precioPorLitro\" bigint,\n" +
+"    total bigint,\n" +
+"    \"refSurtidor\" text,\n" +
+"    CONSTRAINT \"Transaccion_pkey\" PRIMARY KEY (\"id\")\n" +
+");\n" +
+"\n" +
+"CREATE TABLE \"Precios\" (\n" +
+"	id int,\n" +
+"	precio93 bigint,\n" +
+"    precio95 bigint,\n" +
+"    precio97 bigint,\n" +
+"    \"precioDiesel\" bigint,\n" +
+"    \"precioKerosene\" bigint,\n" +
+"    fecha text,\n" +
+"    CONSTRAINT \"Precios_pkey\" PRIMARY KEY (\"id\")\n" +
+");"; 
             stmt.executeUpdate(sql);
             stmt.close();
         } catch ( Exception e ) {

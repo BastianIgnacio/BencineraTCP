@@ -16,16 +16,14 @@ public class Transaccion implements Serializable{
 
     private static final long serialVersionUID = 6529685098267757690L;
     private Timestamp time;
-    private String id;
     private String tipoCombustible;
     private int litros;
     private int precioPorLitro;
     private int total;
     private int refSurtidor;
     
-    public Transaccion(Timestamp time, String id, String tipoCombustible, int litros, int precioPorLitro, int total, int refSurtidor) {
+    public Transaccion(Timestamp time, String tipoCombustible, int litros, int precioPorLitro, int total, int refSurtidor) {
         this.time = time;
-        this.id = id;
         this.tipoCombustible = tipoCombustible;
         this.litros = litros;
         this.precioPorLitro = precioPorLitro;
@@ -43,14 +41,6 @@ public class Transaccion implements Serializable{
 
     public void setTime(Timestamp time) {
         this.time = time;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTipoCombustible() {
@@ -95,7 +85,7 @@ public class Transaccion implements Serializable{
 
     @Override
     public String toString() {
-        return "Transaccion{" + "time=" + time + ", id=" + id + ", tipoCombustible=" + tipoCombustible + ", litros=" + litros + ", precioPorLitro=" + precioPorLitro + ", total=" + total + ", refSurtidor=" + refSurtidor + '}';
+        return "Transaccion{" + "time=" + time + ", tipoCombustible=" + tipoCombustible + ", litros=" + litros + ", precioPorLitro=" + precioPorLitro + ", total=" + total + ", refSurtidor=" + refSurtidor + '}';
     }
     
 }

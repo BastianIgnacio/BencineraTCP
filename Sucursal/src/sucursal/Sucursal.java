@@ -5,6 +5,8 @@
  */
 package sucursal;
 
+import java.io.File;
+import java.nio.file.Files;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +24,8 @@ public class Sucursal extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         BaseDeDatos bd = BaseDeDatos.crearInstancia();
+        //bd.crearTabla();
+        bd.getPrecios();
         bd.getSurtidores();
         Scene scene = new Scene(root);
         

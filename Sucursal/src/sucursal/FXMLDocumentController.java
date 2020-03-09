@@ -89,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
         int precioPorLitro= 500;
         int total=15000;
         
-        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total, 1);
+        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, 1);
         return t;
     }
 }

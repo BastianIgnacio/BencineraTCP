@@ -60,13 +60,10 @@ public class FXMLDocumentController implements Initializable {
     private BorderPane panelCentro;
     
     
-    private Informacion info; 
-    
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.info = new Informacion(0,0,0,0,0);
+        SharedInfo.info = new Informacion(0,0,0,0,0);
     }    
 
     @FXML
@@ -78,7 +75,7 @@ public class FXMLDocumentController implements Initializable {
         
         }
         if(event.getSource()==this.preciosActuales){
-            System.out.println(this.info);
+            System.out.println(SharedInfo.info);
         }
         if(event.getSource()==this.modificar_93)
         {
@@ -92,9 +89,9 @@ public class FXMLDocumentController implements Initializable {
             if (result.isPresent()){
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 93 => " + precio);
-                this.info.setBencina93(precio);
+                SharedInfo.info.setBencina93(precio);
                 Cliente cliente = new Cliente();
-                cliente.setInformacion(info);
+                cliente.setInformacion(SharedInfo.info);
                 new Thread(cliente).start();
             }
         }
@@ -110,9 +107,9 @@ public class FXMLDocumentController implements Initializable {
             if (result.isPresent()){
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 95 => " + precio);
-                this.info.setBencina95(precio);
+                SharedInfo.info.setBencina95(precio);
                 Cliente cliente = new Cliente();
-                cliente.setInformacion(info);
+                cliente.setInformacion(SharedInfo.info);
                 new Thread(cliente).start();
             }
         
@@ -129,9 +126,9 @@ public class FXMLDocumentController implements Initializable {
             if (result.isPresent()){
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 97 => " + precio);
-                this.info.setBencina97(precio);
+                SharedInfo.info.setBencina97(precio);
                 Cliente cliente = new Cliente();
-                cliente.setInformacion(info);
+                cliente.setInformacion(SharedInfo.info);
                 new Thread(cliente).start();
             }
         }
@@ -148,9 +145,9 @@ public class FXMLDocumentController implements Initializable {
             if (result.isPresent()){
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio kerosene => " + precio);
-                this.info.setKerosene(precio);
+                SharedInfo.info.setKerosene(precio);
                 Cliente cliente = new Cliente();
-                cliente.setInformacion(info);
+                cliente.setInformacion(SharedInfo.info);
                 new Thread(cliente).start();
             }
         }
@@ -167,9 +164,9 @@ public class FXMLDocumentController implements Initializable {
             if (result.isPresent()){
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio diesel=> " + precio);
-                this.info.setDiesel(precio);
+                SharedInfo.info.setDiesel(precio);
                 Cliente cliente = new Cliente();
-                cliente.setInformacion(info);
+                cliente.setInformacion(SharedInfo.info);
                 new Thread(cliente).start();
             }
         }

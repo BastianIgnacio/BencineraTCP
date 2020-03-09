@@ -29,6 +29,8 @@ import sucursal.Transaccion;
  */
 public class FXMLDocumentController implements Initializable {
     
+    private int ID_SURTIDOR = 1;
+    
     @FXML private TextField field93;
     @FXML private TextField field95;
     @FXML private TextField field97;
@@ -97,8 +99,7 @@ public class FXMLDocumentController implements Initializable {
     
     private Transaccion crear(String tipoCombustible,int litros)
     {
-        Timestamp time = null;
-        String idTransaccion = "11";
+        Timestamp time = new Timestamp(new java.util.Date().getTime());
         int precioPorLitro= 0;
         switch(tipoCombustible){
             case "93":
@@ -119,7 +120,7 @@ public class FXMLDocumentController implements Initializable {
         }
         int total=litros*precioPorLitro;
 
-        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total);
+        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, ID_SURTIDOR);
         return t;
     }
     

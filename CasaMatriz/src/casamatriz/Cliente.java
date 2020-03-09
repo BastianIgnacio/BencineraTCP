@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sucursal.Informacion;
+import sucursal.Transaccion;
 
 /**
  *
@@ -19,8 +20,12 @@ import sucursal.Informacion;
  */
 public class Cliente implements Runnable{
     Informacion info;
+    String comando;
     public void setInformacion(Informacion info){
         this.info = info;
+    }
+    public void setComando(String cmd){
+        this.comando = cmd;
     }
     
     @Override
@@ -36,6 +41,21 @@ public class Cliente implements Runnable{
             //Flujo para recibir objetos
             out = new ObjectOutputStream(sc.getOutputStream());
             // Se escribe un objeto Informacion.
+            if(this.info != null)
+                out.writeObject(this.info);
+            else
+                out.writeObject(this.comando);
+            out.flush();
+            
+            in = new ObjectInputStream(sc.getInputStream());
+            Object obj = in.readObject();
+                if(obj instanceof Informacion){
+                    Informacion info = (Informacion)obj;
+                    this.info = info;
+                    SharedInfo.info = info;
+                    System.out.println(info);
+                }
+            // Se escribe un objeto Informacion.
             out.writeObject(this.info);
             
             
@@ -43,7 +63,7 @@ public class Cliente implements Runnable{
                         
             sc.close();
             System.out.println("Cliente cerrado");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

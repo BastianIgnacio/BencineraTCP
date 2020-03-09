@@ -24,11 +24,9 @@ import sucursal.Transaccion;
  */
 public class Servidor implements Runnable {
 
-    Informacion info;
     BaseDeDatos bd;
     public Servidor(){
         this.bd = BaseDeDatos.crearInstancia();
-        this.info = new Informacion(0,0,0,0,0);
     }
     @Override
     public void run() {
@@ -57,11 +55,14 @@ public class Servidor implements Runnable {
                     System.out.println("Objeto leido " + obj.getClass().toString());
                     if(obj instanceof Informacion){
                         Informacion info = (Informacion)obj;
-                        this.info = info;
+                        InfoSurtidor.info = info;
+                        this.bd.actualizarPrecios(info);
+                        this.bd.getPrecios();
                         System.out.println(info);
                     }else if(obj instanceof Transaccion){
                         Transaccion trans = (Transaccion)obj;
-                        out.writeObject(this.info);
+                        this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), trans.getRefSurtidor());
+                        out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
                         System.out.println(trans);
                     }else if(obj instanceof String){
@@ -69,7 +70,7 @@ public class Servidor implements Runnable {
                         System.out.println("Comando recibido: " + str);
                         switch(str){
                             case "actualizar_precios":
-                                out.writeObject(this.info);
+                                out.writeObject(InfoSurtidor.info);
                                 break;
                         }
                     }
@@ -99,7 +100,7 @@ public class Servidor implements Runnable {
         int precioPorLitro= 500;
         int total=15000;
         
-        Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total, 1);
+        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, 1);
         return t;
     }
 

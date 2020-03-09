@@ -23,6 +23,10 @@ public class CasaMatriz extends Application {
         
         Scene scene = new Scene(root);
         
+        Cliente c = new Cliente();
+        c.setComando("actualizar_precios");
+        new Thread(c).start();
+        
         stage.setScene(scene);
         stage.show();
     }
