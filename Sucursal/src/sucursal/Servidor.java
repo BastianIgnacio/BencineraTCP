@@ -62,6 +62,7 @@ public class Servidor implements Runnable {
                     }else if(obj instanceof Transaccion){
                         Transaccion trans = (Transaccion)obj;
                         out.writeObject(this.info);
+                        this.actualizarCantidades(trans);
                         System.out.println(trans);
                     }else if(obj instanceof String){
                         String str = (String)obj;
@@ -100,6 +101,31 @@ public class Servidor implements Runnable {
         
         Transaccion t = new Transaccion(time,idTransaccion,tipoCombustible,litros,precioPorLitro,total, 1);
         return t;
+    }
+
+    private void actualizarCantidades(Transaccion trans) {
+         switch(trans.getTipoCombustible()){
+            case "93":
+                InfoSurtidor.cantidad93+=trans.getLitros();
+                InfoSurtidor.cargas93++;
+                break;
+            case "95":
+                InfoSurtidor.cantidad95+=trans.getLitros();
+                InfoSurtidor.cargas95++;
+                break;
+            case "97":
+                InfoSurtidor.cantidad97+=trans.getLitros();
+                InfoSurtidor.cargas97++;
+                break;
+            case "kerosene":
+                InfoSurtidor.cantidadKerosene+=trans.getLitros();
+                InfoSurtidor.cargasKerosene++;
+                break;
+            case "diesel":
+                InfoSurtidor.cantidadDiesel+=trans.getLitros();
+                InfoSurtidor.cargasDiesel++;
+                break;
+        }
     }
 
     

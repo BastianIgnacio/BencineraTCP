@@ -119,17 +119,59 @@ public class FXMLDocumentController implements Initializable {
         }
         if(event.getSource()==this.modificar_97)
         {
-             System.out.println("modificar 97");
+              TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Modificación precio de bencina 97 octanos");
+            dialog.setHeaderText("Complete la información");
+            dialog.setContentText("Ingrese el nuevo precio para la bencina de 97 octanos:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                int precio = Integer.parseInt(result.get());
+                System.out.println("INFO: Nuevo precio bencina 97 => " + precio);
+                this.info.setBencina97(precio);
+                Cliente cliente = new Cliente();
+                cliente.setInformacion(info);
+                new Thread(cliente).start();
+            }
         }
         if(event.getSource()==this.modificar_kerosene)
         {
         
-             System.out.println("modificar kerosene");
+              TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Modificación precio de kerosene");
+            dialog.setHeaderText("Complete la información");
+            dialog.setContentText("Ingrese el nuevo precio para el kerosene:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                int precio = Integer.parseInt(result.get());
+                System.out.println("INFO: Nuevo precio kerosene => " + precio);
+                this.info.setKerosene(precio);
+                Cliente cliente = new Cliente();
+                cliente.setInformacion(info);
+                new Thread(cliente).start();
+            }
         }
         if(event.getSource()==this.modificar_diesel)
         {
         
-             System.out.println("modificar diesel");
+              TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Modificación precio de diesel");
+            dialog.setHeaderText("Complete la información");
+            dialog.setContentText("Ingrese el nuevo precio para el diesel es:");
+
+            // Traditional way to get the response value.
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                int precio = Integer.parseInt(result.get());
+                System.out.println("INFO: Nuevo precio diesel=> " + precio);
+                this.info.setDiesel(precio);
+                Cliente cliente = new Cliente();
+                cliente.setInformacion(info);
+                new Thread(cliente).start();
+            }
         }
     }
 }

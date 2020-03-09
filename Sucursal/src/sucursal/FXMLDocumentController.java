@@ -48,6 +48,17 @@ public class FXMLDocumentController implements Initializable {
     private void buttonAction(ActionEvent event) {
         if(event.getSource()==this.iniciarServidor)
         {
+            System.out.println("Cantidad de litros usados 93 => " + InfoSurtidor.cantidad93);
+            System.out.println("Cantidad de cargas 93 => " + InfoSurtidor.cargas93);
+            System.out.println("Cantidad de litros usados 95 => " + InfoSurtidor.cantidad95);
+            System.out.println("Cantidad de cargas 95 => " + InfoSurtidor.cargas95);
+             System.out.println("Cantidad de litros usados 97 => " + InfoSurtidor.cantidad97);
+            System.out.println("Cantidad de cargas 97 => " + InfoSurtidor.cargas97);
+             System.out.println("Cantidad de litros usados Diesel => " + InfoSurtidor.cantidadDiesel);
+            System.out.println("Cantidad de cargas Diesel => " + InfoSurtidor.cargasDiesel);
+             System.out.println("Cantidad de litros usados Kerosene => " + InfoSurtidor.cantidadKerosene);
+            System.out.println("Cantidad de cargas Kerosene => " + InfoSurtidor.cargasKerosene);
+            
         }
         if(event.getSource()==this.transacciones)
         {

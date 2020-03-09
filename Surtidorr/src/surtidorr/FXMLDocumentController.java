@@ -32,9 +32,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML private TextField field93;
     @FXML private TextField field95;
     @FXML private TextField field97;
+    @FXML private TextField fieldDiesel;
+    @FXML private TextField fieldKerosene;
     @FXML private Button boton93;
     @FXML private Button boton95;
     @FXML private Button boton97;
+    @FXML private Button botonDiesel;
+    @FXML private Button botonKerosene;
     
     @FXML
     private void buttonAction(ActionEvent event) throws ClassNotFoundException {
@@ -67,6 +71,26 @@ public class FXMLDocumentController implements Initializable {
             cliente.setTransaccion(t);
             new Thread(cliente).start();
             field97.setText("");
+        }
+        
+        if(event.getSource()==this.botonDiesel)
+        {
+            System.out.println(fieldDiesel.getText());
+            Transaccion t = this.crear("diesel",parseInt(fieldDiesel.getText()));
+            Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();
+            fieldDiesel.setText("");
+        }
+        
+         if(event.getSource()==this.botonKerosene)
+        {
+            System.out.println(fieldKerosene.getText());
+            Transaccion t = this.crear("kerosene",parseInt(fieldKerosene.getText()));
+            Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();
+            fieldKerosene.setText("");
         }
         
     }

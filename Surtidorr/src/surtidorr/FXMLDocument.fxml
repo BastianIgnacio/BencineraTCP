@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="391.0" prefWidth="432.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="surtidorr.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="420.0" prefWidth="432.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="surtidorr.FXMLDocumentController">
     <children>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
       <Label layoutX="169.0" layoutY="45.0" text="Surtidor">
@@ -14,26 +14,40 @@
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="field93" layoutX="104.0" layoutY="135.0" />
-      <Label layoutX="49.0" layoutY="135.0" text="93">
+      <TextField fx:id="field93" layoutX="134.0" layoutY="135.0" />
+      <Label layoutX="61.0" layoutY="136.0" text="93">
          <font>
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="49.0" layoutY="190.0" text="95">
+      <Label layoutX="61.0" layoutY="190.0" text="95">
          <font>
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="49.0" layoutY="242.0" text="97">
+      <Label layoutX="61.0" layoutY="242.0" text="97">
          <font>
             <Font name="Arial Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="field95" layoutX="104.0" layoutY="189.0" />
-      <TextField fx:id="field97" layoutX="104.0" layoutY="241.0" />
-      <Button fx:id="boton93" layoutX="285.0" layoutY="134.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
-      <Button fx:id="boton95" layoutX="285.0" layoutY="189.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
-      <Button fx:id="boton97" layoutX="285.0" layoutY="241.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
+      <TextField fx:id="field95" layoutX="134.0" layoutY="189.0" />
+      <TextField fx:id="field97" layoutX="134.0" layoutY="241.0" />
+      <Button fx:id="boton93" layoutX="300.0" layoutY="135.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
+      <Button fx:id="boton95" layoutX="300.0" layoutY="189.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
+      <Button fx:id="boton97" layoutX="300.0" layoutY="241.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
+      <Label layoutX="43.0" layoutY="292.0" text="Diesel">
+         <font>
+            <Font name="Arial Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="27.0" layoutY="334.0" text="Kerosene">
+         <font>
+            <Font name="Arial Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="fieldDiesel" layoutX="134.0" layoutY="291.0" />
+      <TextField fx:id="fieldKerosene" layoutX="134.0" layoutY="333.0" />
+      <Button fx:id="botonDiesel" layoutX="300.0" layoutY="291.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
+      <Button fx:id="botonKerosene" layoutX="300.0" layoutY="333.0" mnemonicParsing="false" onAction="#buttonAction" text="Recargar" />
     </children>
 </AnchorPane>
