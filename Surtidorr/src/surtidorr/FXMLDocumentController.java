@@ -29,7 +29,7 @@ import sucursal.Transaccion;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private int ID_SURTIDOR = 1;
+    private int ID_SURTIDOR = 2;
     
     @FXML private TextField field93;
     @FXML private TextField field95;

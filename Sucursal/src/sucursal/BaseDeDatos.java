@@ -103,7 +103,7 @@ public class BaseDeDatos
             return -1;
         }
     }
-        public void getTransacciones(){
+    public void getTransacciones(){
         Statement stmt = null;
         try {
             stmt = this.con.createStatement();
@@ -111,7 +111,8 @@ public class BaseDeDatos
             
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6));
+                
+                System.out.println(rs.getLong(2) + " - " + rs.getString(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6));
             }
         }catch(Exception ex){
             System.out.println(ex);
