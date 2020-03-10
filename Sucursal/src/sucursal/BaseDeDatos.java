@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -118,6 +119,28 @@ public class BaseDeDatos
             System.out.println(ex);
         }
     }
+        
+    public ArrayList<Transaccion> getTransaccionesArray()
+    {
+        ArrayList<Transaccion> trans = new ArrayList();
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT * FROM Transaccion";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next())
+            {
+                Transaccion tran = new Transaccion(rs.getTimestamp(2), rs.getString(3), (int)rs.getLong(4),(int)rs.getLong(5),(int)rs.getLong(6),(int)rs.getLong(7));
+                System.out.println(tran);
+               
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+        return trans;
+    }
+            
     
     private int getIdTransaccion(){
         Statement stmt = null;
