@@ -21,4 +21,5 @@ public class InfoSurtidor {
     public static int cantidadKerosene=0;
     public static int cargasKerosene=0;
     public static Informacion info;
+    public static int margen;
 }

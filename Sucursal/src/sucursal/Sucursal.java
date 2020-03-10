@@ -25,6 +25,7 @@ public class Sucursal extends Application {
         
         BaseDeDatos bd = BaseDeDatos.crearInstancia();
         //bd.crearTabla();
+        InfoSurtidor.margen = 0;
         bd.getPrecios();
         bd.getSurtidores();
         bd.getTransacciones();

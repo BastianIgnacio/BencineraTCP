@@ -185,6 +185,8 @@ public class BaseDeDatos
         try {
             int id = checkPrecios();
             System.out.println("ID ENCONTRADO " + id);
+            double margen = 1+(InfoSurtidor.margen / 100.0);
+            System.out.println("Margen: " + (1+margen));
             if(id == -1){
                 System.out.println("Entro a ingresar preicos");
                 int idprecios = getIdPrecios();
@@ -192,11 +194,11 @@ public class BaseDeDatos
                 ps = con.prepareStatement(str);
                 
                 ps.setInt(1, idprecios);
-                ps.setLong(2, info.getBencina93()); // 93
-                ps.setLong(3, info.getBencina95()); // 95
-                ps.setLong(4, info.getBencina97()); // 97
-                ps.setLong(5, info.getDiesel()); // diesel
-                ps.setLong(6, info.getKerosene()); // kerosene
+                ps.setLong(2, (long)(info.getBencina93()*margen)); // 93
+                ps.setLong(3, (long)(info.getBencina95()*margen)); // 95
+                ps.setLong(4, (long)(info.getBencina97()*margen)); // 97
+                ps.setLong(5, (long)(info.getDiesel()*margen)); // diesel
+                ps.setLong(6, (long)(info.getKerosene()*margen)); // kerosene
                 Date date = new Date(new java.util.Date().getTime());
                 ps.setString(7, date.toString());
                 if(ps.execute()){
@@ -207,11 +209,11 @@ public class BaseDeDatos
                 Date date = new Date(new java.util.Date().getTime());
                 String str = "UPDATE Precios SET precio93=?, precio95=?, precio97=?, precioDiesel=?, precioKerosene=? WHERE id=" + id;
                 ps = con.prepareStatement(str);
-                ps.setLong(1, info.getBencina93()); // 93
-                ps.setLong(2, info.getBencina95()); // 95
-                ps.setLong(3, info.getBencina97()); // 97
-                ps.setLong(4, info.getDiesel()); // diesel
-                ps.setLong(5, info.getKerosene()); // kerosene
+                ps.setLong(1, (long)(info.getBencina93()*margen)); // 93
+                ps.setLong(2, (long)(info.getBencina95()*margen)); // 95
+                ps.setLong(3, (long)(info.getBencina97()*margen)); // 97
+                ps.setLong(4, (long)(info.getDiesel()*margen)); // diesel
+                ps.setLong(5, (long)(info.getKerosene()*margen)); // kerosene
                 if(ps.execute()){
                     System.out.println("INFO: Precios actualizados exitosamente.");
                 }

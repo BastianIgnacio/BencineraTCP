@@ -15,8 +15,8 @@
             <Insets bottom="10.0" left="10.0" />
          </BorderPane.margin>
          <children>
-            <Button fx:id="precios" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="160.0" text="Margen de ganacia" />
-            <Button fx:id="precios1" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="160.0" text="Precio Combustible" />
+            <Button fx:id="ganancias" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="160.0" text="Margen de ganacia" />
+            <Button fx:id="precios" mnemonicParsing="false" onAction="#buttonAction" prefHeight="60.0" prefWidth="160.0" text="Precio Combustible" />
          </children>
       </VBox>
    </left>
