@@ -27,6 +27,7 @@ public class Sucursal extends Application {
         //bd.crearTabla();
         bd.getPrecios();
         bd.getSurtidores();
+        bd.getTransacciones();
         Scene scene = new Scene(root);
         
         stage.setScene(scene);

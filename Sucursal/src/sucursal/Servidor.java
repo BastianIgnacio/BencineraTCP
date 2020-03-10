@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sucursal.FXMLDocumentController;
@@ -25,6 +26,10 @@ import sucursal.Transaccion;
 public class Servidor implements Runnable {
 
     BaseDeDatos bd;
+
+    
+    FXMLDocumentController controlador; 
+    
     public Servidor(){
         this.bd = BaseDeDatos.crearInstancia();
     }
@@ -64,6 +69,11 @@ public class Servidor implements Runnable {
                         this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), trans.getRefSurtidor());
                         out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
+                        
+                        ArrayList<Transaccion> transacciones = this.bd.getTransaccionesArray();
+                        this.controlador.updateTransacciones(transacciones);
+                        
+                        
                         System.out.println(trans);
                     }else if(obj instanceof String){
                         String str = (String)obj;
@@ -128,6 +138,15 @@ public class Servidor implements Runnable {
                 break;
         }
     }
+    
+    public FXMLDocumentController getControlador() {
+        return controlador;
+    }
+
+    public void setControlador(FXMLDocumentController controlador) {
+        this.controlador = controlador;
+    }
+    
 
     
 }

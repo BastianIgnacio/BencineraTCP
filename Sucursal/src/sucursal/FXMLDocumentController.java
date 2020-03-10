@@ -13,14 +13,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -31,16 +37,31 @@ public class FXMLDocumentController implements Initializable {
     private Label label;
     private Button transacciones;
     @FXML
-    private Button trabajadores;
-    @FXML
     private Button precios;
     @FXML
     private Button iniciarServidor;
+    @FXML
+    private TableView<Transaccion> tablaTransacciones;
+    @FXML
+    private TableColumn<Transaccion,Timestamp> tcfecha;
+    @FXML
+    private TableColumn<Transaccion,String> tctipo;
+    @FXML
+    private TableColumn<Transaccion,Integer> tclitros;
+    @FXML
+    private TableColumn<Transaccion,Integer> tcprecioporlitro;
+    @FXML
+    private TableColumn<Transaccion,Integer> tctotal;
+    @FXML
+    private TableColumn<Transaccion,Integer> tcsurtidor;
    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         iniciarServidor();
+        
+        
+        
       
     }    
 
@@ -76,7 +97,9 @@ public class FXMLDocumentController implements Initializable {
     
     private void iniciarServidor()
     {
-        Thread a = new Thread(new Servidor());
+        Servidor s = new Servidor();
+        s.setControlador(this);
+        Thread a = new Thread(s);
         a.start();
     }
     
@@ -91,5 +114,25 @@ public class FXMLDocumentController implements Initializable {
         
         Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, 1);
         return t;
+    }
+    
+    
+    public void updateTransacciones(ArrayList<Transaccion> transacciones)
+    {
+        this.tablaTransacciones.setEditable(true);
+        System.out.println("Updateeeeeeee");
+        this.tablaTransacciones.getItems().clear();
+        
+        
+        ObservableList<Transaccion> data = FXCollections.observableArrayList(transacciones);
+        this.tcfecha.setCellValueFactory(new PropertyValueFactory<>("time"));
+        this.tctipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
+        this.tclitros.setCellValueFactory(new PropertyValueFactory<>("litros"));
+        this.tcprecioporlitro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
+        this.tctotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        this.tcsurtidor.setCellValueFactory(new PropertyValueFactory<>("refSurtidor"));
+        
+        this.tablaTransacciones.setItems(data);
+    
     }
 }

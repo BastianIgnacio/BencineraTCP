@@ -15,6 +15,8 @@ import java.sql.Timestamp;
 public class Transaccion implements Serializable{
 
     private static final long serialVersionUID = 6529685098267757690L;
+
+    
     private Timestamp time;
     private String tipoCombustible;
     private int litros;
