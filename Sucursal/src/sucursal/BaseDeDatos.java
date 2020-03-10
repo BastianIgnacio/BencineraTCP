@@ -131,7 +131,9 @@ public class BaseDeDatos
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next())
             {
+                
                 Transaccion tran = new Transaccion(rs.getTimestamp(2), rs.getString(3), (int)rs.getLong(4),(int)rs.getLong(5),(int)rs.getLong(6),(int)rs.getLong(7));
+                trans.add(tran);
                 System.out.println(tran);
                
             }

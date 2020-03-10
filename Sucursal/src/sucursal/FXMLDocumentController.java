@@ -6,6 +6,8 @@
 package sucursal;
 
 
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,6 +29,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -61,8 +67,14 @@ public class FXMLDocumentController implements Initializable {
         iniciarServidor();
         
         
+        this.tcfecha.setCellValueFactory(new PropertyValueFactory<>("time"));
+        this.tctipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
+        this.tclitros.setCellValueFactory(new PropertyValueFactory<>("litros"));
+        this.tcprecioporlitro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
+        this.tctotal.setCellValueFactory(new PropertyValueFactory<>("total"));
+        this.tcsurtidor.setCellValueFactory(new PropertyValueFactory<>("refSurtidor"));
         
-      
+        
     }    
 
     @FXML
@@ -122,17 +134,11 @@ public class FXMLDocumentController implements Initializable {
         this.tablaTransacciones.setEditable(true);
         System.out.println("Updateeeeeeee");
         this.tablaTransacciones.getItems().clear();
-        
+        System.out.println(" tamano " + String.valueOf(transacciones.size()));
         
         ObservableList<Transaccion> data = FXCollections.observableArrayList(transacciones);
-        this.tcfecha.setCellValueFactory(new PropertyValueFactory<>("time"));
-        this.tctipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
-        this.tclitros.setCellValueFactory(new PropertyValueFactory<>("litros"));
-        this.tcprecioporlitro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
-        this.tctotal.setCellValueFactory(new PropertyValueFactory<>("total"));
-        this.tcsurtidor.setCellValueFactory(new PropertyValueFactory<>("refSurtidor"));
-        
         this.tablaTransacciones.setItems(data);
+        
     
     }
 }
