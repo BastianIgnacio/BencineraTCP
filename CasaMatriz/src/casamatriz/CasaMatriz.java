@@ -22,10 +22,11 @@ public class CasaMatriz extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        
-        Cliente c = new Cliente();
-        c.setComando("actualizar_precios");
-        new Thread(c).start();
+        for (String sucursal : SharedInfo.sucursales) {
+            Cliente c = new Cliente(sucursal);
+            c.setComando("actualizar_precios");
+            new Thread(c).start();
+        }
         
         stage.setScene(scene);
         stage.show();

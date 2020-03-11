@@ -90,9 +90,11 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 93 => " + precio);
                 SharedInfo.info.setBencina93(precio);
-                Cliente cliente = new Cliente();
-                cliente.setInformacion(SharedInfo.info);
-                new Thread(cliente).start();
+                for (String sucursal : SharedInfo.sucursales) {
+                    Cliente cliente = new Cliente(sucursal);
+                    cliente.setInformacion(SharedInfo.info);
+                    new Thread(cliente).start();
+                }
             }
         }
         if(event.getSource()==this.modificar_95)
@@ -108,9 +110,11 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 95 => " + precio);
                 SharedInfo.info.setBencina95(precio);
-                Cliente cliente = new Cliente();
-                cliente.setInformacion(SharedInfo.info);
-                new Thread(cliente).start();
+                for (String sucursal : SharedInfo.sucursales) {
+                    Cliente cliente = new Cliente(sucursal);
+                    cliente.setInformacion(SharedInfo.info);
+                    new Thread(cliente).start();
+                }
             }
         
         }
@@ -127,9 +131,11 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 97 => " + precio);
                 SharedInfo.info.setBencina97(precio);
-                Cliente cliente = new Cliente();
-                cliente.setInformacion(SharedInfo.info);
-                new Thread(cliente).start();
+                for (String sucursal : SharedInfo.sucursales) {
+                    Cliente cliente = new Cliente(sucursal);
+                    cliente.setInformacion(SharedInfo.info);
+                    new Thread(cliente).start();
+                }
             }
         }
         if(event.getSource()==this.modificar_kerosene)
@@ -146,9 +152,11 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio kerosene => " + precio);
                 SharedInfo.info.setKerosene(precio);
-                Cliente cliente = new Cliente();
-                cliente.setInformacion(SharedInfo.info);
-                new Thread(cliente).start();
+                for (String sucursal : SharedInfo.sucursales) {
+                    Cliente cliente = new Cliente(sucursal);
+                    cliente.setInformacion(SharedInfo.info);
+                    new Thread(cliente).start();
+                }
             }
         }
         if(event.getSource()==this.modificar_diesel)
@@ -165,9 +173,11 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio diesel=> " + precio);
                 SharedInfo.info.setDiesel(precio);
-                Cliente cliente = new Cliente();
-                cliente.setInformacion(SharedInfo.info);
-                new Thread(cliente).start();
+                for (String sucursal : SharedInfo.sucursales) {
+                    Cliente cliente = new Cliente(sucursal);
+                    cliente.setInformacion(SharedInfo.info);
+                    new Thread(cliente).start();
+                }
             }
         }
     }

@@ -15,4 +15,6 @@ import sucursal.Informacion;
  */
 public class SharedInfo {
     public static Informacion info;
+    /* IP DE LA SUCURSAL */
+    public static String ip = "127.0.0.1";
 }

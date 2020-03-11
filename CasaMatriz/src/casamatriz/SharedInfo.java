@@ -5,6 +5,8 @@
  */
 package casamatriz;
 
+import java.util.Arrays;
+import java.util.List;
 import sucursal.Informacion;
 
 /**
@@ -13,4 +15,6 @@ import sucursal.Informacion;
  */
 public class SharedInfo {
     public static Informacion info;
+    /* IPS Sucursales a las que se conectara */
+    public static List<String> sucursales = Arrays.asList("25.18.33.163", "25.15.76.189");
 }

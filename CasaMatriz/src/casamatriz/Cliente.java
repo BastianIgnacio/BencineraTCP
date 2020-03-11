@@ -21,23 +21,31 @@ import sucursal.Transaccion;
 public class Cliente implements Runnable{
     Informacion info;
     String comando;
+    String ip;
+    
     public void setInformacion(Informacion info){
         this.info = info;
     }
     public void setComando(String cmd){
         this.comando = cmd;
     }
+    public void setIP(String ip){
+        this.ip = ip;
+    }
+    
+    public Cliente(String ip){
+        this.ip = ip;
+    }
     
     @Override
     public void run() {
-        final String HOST = "127.0.0.1";
         final int PUERTO = 5000;
         ObjectInputStream in;
         ObjectOutputStream out;
         
         try {
-            Socket sc = new Socket(HOST,PUERTO);
-            
+            Socket sc = new Socket(this.ip,PUERTO);
+            System.out.println("Socket abierto con IP: " + this.ip);
             //Flujo para recibir objetos
             out = new ObjectOutputStream(sc.getOutputStream());
             // Se escribe un objeto Informacion.
@@ -60,7 +68,6 @@ public class Cliente implements Runnable{
             
             
             in = new ObjectInputStream(sc.getInputStream());
-                        
             sc.close();
             System.out.println("Cliente cerrado");
         } catch (Exception ex) {

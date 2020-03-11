@@ -31,7 +31,7 @@ public class Cliente implements Runnable{
     
     @Override
     public void run() {
-        final String HOST = "127.0.0.1";
+        final String HOST = SharedInfo.ip;
         final int PUERTO = 5000;
         ObjectInputStream in;
         ObjectOutputStream out;
