@@ -5,6 +5,7 @@
  */
 package casamatriz;
 
+import casamatriz.servidor.Servidor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,11 +23,9 @@ public class CasaMatriz extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
-        for (String sucursal : SharedInfo.sucursales) {
-            Cliente c = new Cliente(sucursal);
-            c.setComando("actualizar_precios");
-            new Thread(c).start();
-        }
+        
+        Servidor servidor = new Servidor();
+        new Thread(servidor).start();
         
         stage.setScene(scene);
         stage.show();
