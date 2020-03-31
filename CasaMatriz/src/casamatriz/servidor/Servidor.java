@@ -23,6 +23,14 @@ public class Servidor implements Runnable {
     public Servidor(){
         this.sucursales = new ArrayList<>();
     }
+
+    public ArrayList<Worker> getSucursales() {
+        return sucursales;
+    }
+
+    public void setSucursales(ArrayList<Worker> sucursales) {
+        this.sucursales = sucursales;
+    }
     
     public void checkSucursales(){
         for (Worker suc : this.sucursales) {

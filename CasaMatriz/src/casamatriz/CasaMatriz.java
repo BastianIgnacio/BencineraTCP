@@ -23,9 +23,8 @@ public class CasaMatriz extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
+        FileHandler.loadInfo();
         
-        Servidor servidor = new Servidor();
-        new Thread(servidor).start();
         
         stage.setScene(scene);
         stage.show();

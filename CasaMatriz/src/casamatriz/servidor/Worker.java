@@ -49,6 +49,17 @@ public class Worker extends Thread {
         return this.address;
     }
     
+    public void enviar(){
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(s.getOutputStream());
+            out.writeObject(SharedInfo.info);
+            out.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public void check(){
         ObjectOutputStream out = null;
         try {

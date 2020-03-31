@@ -5,6 +5,8 @@
  */
 package casamatriz;
 
+import casamatriz.servidor.Servidor;
+import casamatriz.servidor.Worker;
 import sucursal.Transaccion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -59,11 +61,12 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private BorderPane panelCentro;
     
+    Servidor servidor;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        SharedInfo.info = new Informacion(0,0,0,0,0);
+        servidor = new Servidor();
+        new Thread(servidor).start();
     }    
 
     @FXML
@@ -90,10 +93,9 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 93 => " + precio);
                 SharedInfo.info.setBencina93(precio);
-                for (String sucursal : SharedInfo.sucursales) {
-                    Cliente cliente = new Cliente(sucursal);
-                    cliente.setInformacion(SharedInfo.info);
-                    new Thread(cliente).start();
+                FileHandler.saveInfo();
+                for (Worker sucursal : servidor.getSucursales()) {
+                    sucursal.enviar();
                 }
             }
         }
@@ -110,10 +112,9 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 95 => " + precio);
                 SharedInfo.info.setBencina95(precio);
-                for (String sucursal : SharedInfo.sucursales) {
-                    Cliente cliente = new Cliente(sucursal);
-                    cliente.setInformacion(SharedInfo.info);
-                    new Thread(cliente).start();
+                FileHandler.saveInfo();
+                for (Worker sucursal : servidor.getSucursales()) {
+                    sucursal.enviar();
                 }
             }
         
@@ -131,10 +132,9 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 97 => " + precio);
                 SharedInfo.info.setBencina97(precio);
-                for (String sucursal : SharedInfo.sucursales) {
-                    Cliente cliente = new Cliente(sucursal);
-                    cliente.setInformacion(SharedInfo.info);
-                    new Thread(cliente).start();
+                FileHandler.saveInfo();
+                for (Worker sucursal : servidor.getSucursales()) {
+                    sucursal.enviar();
                 }
             }
         }
@@ -152,10 +152,9 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio kerosene => " + precio);
                 SharedInfo.info.setKerosene(precio);
-                for (String sucursal : SharedInfo.sucursales) {
-                    Cliente cliente = new Cliente(sucursal);
-                    cliente.setInformacion(SharedInfo.info);
-                    new Thread(cliente).start();
+                FileHandler.saveInfo();
+                for (Worker sucursal : servidor.getSucursales()) {
+                    sucursal.enviar();
                 }
             }
         }
@@ -173,10 +172,9 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio diesel=> " + precio);
                 SharedInfo.info.setDiesel(precio);
-                for (String sucursal : SharedInfo.sucursales) {
-                    Cliente cliente = new Cliente(sucursal);
-                    cliente.setInformacion(SharedInfo.info);
-                    new Thread(cliente).start();
+                FileHandler.saveInfo();
+                for (Worker sucursal : servidor.getSucursales()) {
+                    sucursal.enviar();
                 }
             }
         }
