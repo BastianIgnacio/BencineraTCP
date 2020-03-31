@@ -5,11 +5,14 @@
  */
 package casamatriz;
 
+import casamatriz.servidor.Servidor;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -19,16 +22,20 @@ public class CasaMatriz extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
+        FXMLLoader fXMLLoader = new FXMLLoader();
+        fXMLLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = fXMLLoader.load();
+        FXMLDocumentController ctrl = fXMLLoader.getController();
         Scene scene = new Scene(root);
-        for (String sucursal : SharedInfo.sucursales) {
-            Cliente c = new Cliente(sucursal);
-            c.setComando("actualizar_precios");
-            new Thread(c).start();
-        }
+        FileHandler.loadInfo();
         
         stage.setScene(scene);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          public void handle(WindowEvent we) {
+              System.out.println("INFO: Cerrando servidor sockets.");
+              ctrl.cerrarServidor();
+          }
+      });   
         stage.show();
     }
 
