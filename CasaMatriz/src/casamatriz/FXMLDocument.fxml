@@ -22,6 +22,7 @@
             <Button fx:id="modificar_kerosene" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Kerosene" />
             <Button fx:id="modificar_diesel" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Diesel" />
             <Button fx:id="establecer_cliente" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Establecer C Cliente" />
+            <Button fx:id="reportes" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Reportes" />
          </children>
       </VBox>
    </left>

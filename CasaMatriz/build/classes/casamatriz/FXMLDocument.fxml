@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="casamatriz.FXMLDocumentController">
+   <left>
+      <VBox prefHeight="521.0" prefWidth="150.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" />
+         </BorderPane.margin>
+         <children>
+            <Button fx:id="preciosActuales" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Precios Actuales" />
+            <Button fx:id="modificar_93" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 93" />
+            <Button fx:id="modificar_95" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 95" />
+            <Button fx:id="modificar_97" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar 97" />
+            <Button fx:id="modificar_kerosene" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Kerosene" />
+            <Button fx:id="modificar_diesel" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Modificar Diesel" />
+            <Button fx:id="establecer_cliente" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Establecer C Cliente" />
+            <Button fx:id="reportes" mnemonicParsing="false" onAction="#buttonAction" prefHeight="50.0" prefWidth="150.0" text="Reportes" />
+         </children>
+      </VBox>
+   </left>
+   <top>
+      <Label text="Casa Matriz" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" top="20.0" />
+         </BorderPane.margin>
+         <font>
+            <Font name="Arial Bold" size="21.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <BorderPane fx:id="panelCentro" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 5; -fx-background-color: E7E7E7; -fx-border-color: E7E7E7;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" />
+         </BorderPane.margin>
+         <top>
+            <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="418.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label text="Sucursales">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TableView fx:id="tvSucursales" prefHeight="268.0" prefWidth="838.0">
+                    <columns>
+                      <TableColumn fx:id="tcSucurcalNombre" prefWidth="395.0" text="Nombre" />
+                      <TableColumn fx:id="tcSucursalDireccionIp" prefWidth="284.0" text="Direccion IP" />
+                        <TableColumn fx:id="tcSucursalEstado" prefWidth="150.0" text="Estado" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Separator prefWidth="200.0" />
+                  <Label text="Ultimas Modificaciones">
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="tvModificaciones" prefHeight="356.0" prefWidth="838.0">
+                    <columns>
+                      <TableColumn fx:id="tcModificacionTipo" prefWidth="396.0" text="Tipo" />
+                        <TableColumn fx:id="tcModificacionFecha" prefWidth="298.0" text="Fecha " />
+                      <TableColumn fx:id="tcModificacionPrecio" prefWidth="150.0" text="Precio" />
+                    </columns>
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>
