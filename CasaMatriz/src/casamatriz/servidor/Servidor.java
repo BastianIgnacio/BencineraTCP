@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 public class Servidor implements Runnable {
 
     ArrayList<Worker> sucursales;
+    ServerSocket servidor = null;
     
     public Servidor(){
         this.sucursales = new ArrayList<>();
@@ -30,6 +31,14 @@ public class Servidor implements Runnable {
 
     public void setSucursales(ArrayList<Worker> sucursales) {
         this.sucursales = sucursales;
+    }
+
+    public void cerrar(){
+        try {
+            this.servidor.close();
+        } catch (IOException ex) {
+            System.out.println("ERROR: No se puede cerrar el servidor.");
+        }
     }
     
     public void checkSucursales(){
@@ -57,7 +66,7 @@ public class Servidor implements Runnable {
     
     @Override
     public void run() {
-        ServerSocket servidor = null;
+        
         Socket sc = null;
         final int PUERTO = 5000;
         try {
@@ -75,13 +84,14 @@ public class Servidor implements Runnable {
                 
             }
             
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             try {
                 sc.close();
             } catch (IOException ex1) {
                 System.out.println("ERROR: No se puede cerrar el servidor de socket.");
+            } catch (NullPointerException nex){
+                System.out.println("ERROR: Hilo servidor terminado forzosamente.");
             }
-            System.out.println("ERROR: Error durante la ejecucion del servidor.");
         }
     }
 }

@@ -80,13 +80,20 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<?, ?> tcModificacionFecha;
     
     Servidor servidor;
+    Thread hiloServer;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         servidor = new Servidor();
-        new Thread(servidor).start();
+        hiloServer = new Thread(servidor);
+        hiloServer.start();
     }    
 
+    public void cerrarServidor(){
+        this.servidor.cerrar();
+        this.hiloServer.interrupt();
+    }
+    
     @FXML
     private void buttonAction(ActionEvent event) throws ClassNotFoundException {
         
