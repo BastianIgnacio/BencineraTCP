@@ -39,6 +39,7 @@ public class Cliente implements Runnable{
     
     @Override
     public void run() {
+        final String HOST = "25.18.33.163";
         final int PUERTO = 5000;
         ObjectInputStream in;
         ObjectOutputStream out;

@@ -21,6 +21,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.BorderPane;
 import sucursal.Informacion;
@@ -58,6 +60,22 @@ public class FXMLDocumentController implements Initializable {
     private Button establecer_cliente;
     @FXML
     private BorderPane panelCentro;
+    @FXML
+    private TableView<?> tvSucursales;
+    @FXML
+    private TableColumn<?, ?> tcSucurcalNombre;
+    @FXML
+    private TableColumn<?, ?> tcSucursalDireccionIp;
+    @FXML
+    private TableColumn<?, ?> tcSucursalEstado;
+    @FXML
+    private TableView<?> tvModificaciones;
+    @FXML
+    private TableColumn<?, ?> tcModificacionTipo;
+    @FXML
+    private TableColumn<?, ?> tcModificacionPrecio;
+    @FXML
+    private TableColumn<?, ?> tcModificacionFecha;
     
     
     @Override
