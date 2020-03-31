@@ -16,5 +16,5 @@ import sucursal.Informacion;
 public class SharedInfo {
     public static Informacion info;
     /* IPS Sucursales a las que se conectara */
-    public static List<String> sucursales = Arrays.asList("25.18.33.163", "25.15.76.189");
+    public static List<String> sucursales = Arrays.asList("25.18.33.163","25.18.101.131");
 }

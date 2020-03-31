@@ -8,7 +8,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sucursal.FXMLDocumentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sucursal.FXMLDocumentController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="487.0" prefWidth="180.0" spacing="10.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
@@ -21,7 +21,7 @@
       </VBox>
    </left>
    <top>
-      <Label text="Sucursal o Distribuidor &quot;&quot;" BorderPane.alignment="CENTER">
+      <Label text="Sucursal o Distribuidor " BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="40.0" top="40.0" />
          </BorderPane.margin>
@@ -38,12 +38,12 @@
          <center>
             <TableView fx:id="tablaTransacciones" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="tcfecha" prefWidth="190.0" text="Fecha" />
-                <TableColumn fx:id="tctipo" prefWidth="106.0" text="Tipo" />
-                  <TableColumn fx:id="tclitros" prefWidth="66.0" text="Litros" />
-                  <TableColumn fx:id="tcprecioporlitro" prefWidth="66.0" text="P/Litro" />
-                  <TableColumn fx:id="tctotal" prefWidth="76.0" text="Total" />
-                  <TableColumn fx:id="tcsurtidor" prefWidth="76.0" text="Surtidor" />
+                <TableColumn fx:id="tcfecha" prefWidth="300.0" text="Fecha" />
+                <TableColumn fx:id="tctipo" prefWidth="150.0" text="Tipo" />
+                  <TableColumn fx:id="tclitros" text="Litros" />
+                  <TableColumn fx:id="tcprecioporlitro" text="P/Litro" />
+                  <TableColumn fx:id="tctotal" text="Total" />
+                  <TableColumn fx:id="tcsurtidor" prefWidth="111.0" text="Surtidor" />
               </columns>
                <BorderPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

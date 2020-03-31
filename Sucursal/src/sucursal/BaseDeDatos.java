@@ -28,7 +28,7 @@ public class BaseDeDatos
     private static BaseDeDatos bd;
 
     // El constructor es privado, no permite que se genere un constructor por defecto.
-    private BaseDeDatos() {
+    BaseDeDatos() {
         try {
             Class.forName("org.sqlite.JDBC");
             this.con = DriverManager.getConnection("jdbc:sqlite:bencinera.db");
@@ -44,7 +44,6 @@ public class BaseDeDatos
         else{
             System.out.println("No se puede crear el objeto porque ya existe un objeto de la clase BaseDeDatos");
         }
-        
         return bd;
     }
     
