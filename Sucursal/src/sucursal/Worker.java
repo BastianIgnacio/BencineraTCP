@@ -99,13 +99,15 @@ public class Worker extends Thread {
                     //if(in.available()>0) {
                         Object obj = in.readObject();
                         System.out.println("Objeto leido " + obj.getClass().toString());
-                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                        
                         if(obj instanceof String){
                              String str = (String) obj;
                         System.out.println("Mensaje: " + (String) obj);
                         switch (str) {
                             case "actualizar_precios":
+                                ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                                 out.writeObject(InfoSurtidor.info);
+                                out.flush();
                                 break;
                         }
                         }
@@ -119,16 +121,20 @@ public class Worker extends Thread {
                         System.out.println(trans.getTipoCombustible());
 
                         this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), id);
-                        out.writeObject(InfoSurtidor.info);
+                        //out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
-
+                        
+                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                        out.writeObject("actualizar");
+                        out.flush();
+                        
                         ArrayList<Transaccion> transacciones = this.bd.getTransaccionesArray();
                         this.controlador.updateTransacciones(transacciones);
 
                         System.out.println(">"+trans);
                     }
 
-                       
+                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                         out.writeObject("OK");
                         out.flush();
                     }

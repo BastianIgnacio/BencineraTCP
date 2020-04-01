@@ -69,10 +69,11 @@ public class Cliente implements Runnable {
                 if(1==2){
                     break;
                 }
-                ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+                
                     //if(in.available()>0) {
+                    ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                         Object obj = in.readObject();
-                        System.out.println("Objeto leido " + obj.getClass().toString());
+                        //System.out.println("Objeto leido " + obj.getClass().toString());
 
                     if (obj instanceof Informacion) {
                         Informacion info = (Informacion) obj;
@@ -85,7 +86,7 @@ public class Cliente implements Runnable {
                     }
                     if (obj instanceof String) {
                         String str = (String) obj;
-                        if(str.equals("OK")){
+                        if(str.equals("actualizar")){
                             dos = new ObjectOutputStream(s.getOutputStream());
                             dos.writeObject("actualizar_precios");
                             dos.flush();
@@ -93,9 +94,7 @@ public class Cliente implements Runnable {
                         System.out.println("Mensaje: " + (String) obj);
 
                     }
-                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-                        out.writeObject("OK");
-                        out.flush();
+                   
             }
             // closing resources 
             dos.close();
