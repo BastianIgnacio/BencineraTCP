@@ -52,10 +52,6 @@ public class Servidor implements Runnable {
         }
     }
     
-    
-    
-    
-    
     /**
      * Metodo para chequear si es que ya existe en la lista de conectados, si existe se elimina.
      */
@@ -67,7 +63,7 @@ public class Servidor implements Runnable {
             }
         }
     }
-   
+    
     @Override
     public void run() {
         

@@ -14,14 +14,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -81,13 +77,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Worker, Boolean> tcSucursalEstado;
     @FXML
-    private TableView<Modificacion> tvModificaciones;
+    private TableView<?> tvModificaciones;
     @FXML
-    private TableColumn<Modificacion, String> tcModificacionTipo;
+    private TableColumn<?, ?> tcModificacionTipo;
     @FXML
-    private TableColumn<Modificacion, Integer> tcModificacionPrecio;
+    private TableColumn<?, ?> tcModificacionPrecio;
     @FXML
-    private TableColumn<Modificacion, Timestamp> tcModificacionFecha;
+    private TableColumn<?, ?> tcModificacionFecha;
     @FXML
     private Button reportes;
     
@@ -102,44 +98,14 @@ public class FXMLDocumentController implements Initializable {
         
         iniciarTablesView();
         
-        //** Creacion de modificaciones de prueba
-        ArrayList<Modificacion> mods = new ArrayList();
-        Timestamp time = new Timestamp(new java.util.Date().getTime());
-        Modificacion m = new Modificacion("tipo1", time, 10);
-        mods.add(m);
-        time = new Timestamp(new java.util.Date().getTime());
-        m = new Modificacion("tipo2", time, 20);
-        mods.add(m);
-        updateModificaciones(mods);
-        
     }    
-    
-    
 
     private void iniciarTablesView()
     {
          this.tcSucurcalNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
          this.tcSucursalDireccionIp.setCellValueFactory(new PropertyValueFactory<>("address"));
          this.tcModificacionTipo.setCellValueFactory(new PropertyValueFactory<>("estado"));
-         
-         this.tcModificacionTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-         this.tcModificacionPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-         this.tcModificacionFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-         
-    }
     
-    private void updateSucursales(ArrayList<Worker> array)
-    {
-        this.tvSucursales.getItems().clear();
-        ObservableList<Worker> data = FXCollections.observableArrayList(array);
-        this.tvSucursales.setItems(data);
-    }
-    
-    private void updateModificaciones(ArrayList<Modificacion> array)
-    {
-        this.tvModificaciones.getItems().clear();
-        ObservableList<Modificacion> data = FXCollections.observableArrayList(array);
-        this.tvModificaciones.setItems(data);
     }
     
     
