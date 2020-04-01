@@ -60,6 +60,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button cargarButton;
     @FXML
+    private Button botonConexion;
+    @FXML
     private TableView<Transaccion> tbUltimasCargas;
     @FXML
     private TableColumn<Transaccion, Timestamp> tc_uc_fecha;
@@ -92,7 +94,8 @@ public class FXMLDocumentController implements Initializable {
         
         if(event.getSource()==this.cargarButton)
         {
-            Transaccion t = this.crear("93",parseInt(textFieldLitros.getText()));
+            System.out.println(this.comboBoxTipo.getValue());
+            Transaccion t = this.crear(this.comboBoxTipo.getValue(),parseInt(textFieldLitros.getText()));
             cliente.enviarTransaccion(t);
         }
         if(event.getSource()==this.boton93)
@@ -174,8 +177,8 @@ public class FXMLDocumentController implements Initializable {
          SharedInfo.info = new Informacion(0,0,0,0,0);
          new Thread(cliente).start();
         
-        this.comboBoxTipo.getItems().add("Kerosene");
-        this.comboBoxTipo.getItems().add("Diesel");
+        this.comboBoxTipo.getItems().add("kerosene");
+        this.comboBoxTipo.getItems().add("diesel");
         this.comboBoxTipo.getItems().add("93");
         this.comboBoxTipo.getItems().add("95");
         this.comboBoxTipo.getItems().add("97");
@@ -239,11 +242,15 @@ public class FXMLDocumentController implements Initializable {
     public void comprobarConexion(boolean isConnected){
         if (!isConnected == true){
             cargarButton.setDisable(true);
-            cargarButton.setText("Sin Conexion");
+            //botonConexion.setText("Desconectado");
+            botonConexion.setStyle("-fx-base: red;");
+            
         }
         else{
-            cargarButton.setDisable(true);
-            cargarButton.setText("Sin Conexion");
+            //botonConexion.setText("Conectado");
+            cargarButton.setDisable(false);
+            botonConexion.setStyle("-fx-base: green;");
+            
         }
         
     }
