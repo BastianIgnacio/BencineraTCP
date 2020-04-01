@@ -40,22 +40,14 @@ public class Worker extends Thread {
     BaseDeDatos bd;
     FXMLDocumentController controlador;
     int id = 0;
+
     // Constructor 
     public Worker(Socket s, BaseDeDatos base, FXMLDocumentController cont) {
         this.s = s;
         this.address = s.getInetAddress().getHostAddress();
         this.bd = base;
         this.controlador = cont;
-       
-       /* ArrayList<String> ips = this.getLocalIPs();
 
-        for (String ip : ips) {
-            if (bd.checkSucursal(ip) != -1) {
-                id = bd.checkSucursal(ip);
-               
-            }
-        }
-         System.out.println(id);*/
     }
 
     public boolean isConnected() {
@@ -85,23 +77,34 @@ public class Worker extends Thread {
 
     @Override
     public void run() {
-        boolean primer= true;
+        boolean primer = true;
         String received = "",
                 toreturn = "";
         if (this.s.isConnected()) {
             System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Surtidor Conectado.");
+            ArrayList<String> ips = this.getLocalIPs();
+            for (String ip : ips) {
+                System.out.println("ips: " + ip);
+            }
+            for (String ip : ips) {
+                if (bd.checkSucursal(ip) != -1) {
+                    id = bd.checkSucursal(ip);
+
+                }
+            }
+            System.out.println("ip entrante: " + id);
         }
-       
-        while(true){
-            try{
-                if(!this.s.isClosed()){
+
+        while (true) {
+            try {
+                if (!this.s.isClosed()) {
                     ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                     //if(in.available()>0) {
-                        Object obj = in.readObject();
-                        System.out.println("Objeto leido " + obj.getClass().toString());
-                        
-                        if(obj instanceof String){
-                             String str = (String) obj;
+                    Object obj = in.readObject();
+                    System.out.println("Objeto leido " + obj.getClass().toString());
+
+                    if (obj instanceof String) {
+                        String str = (String) obj;
                         System.out.println("Mensaje: " + (String) obj);
                         switch (str) {
                             case "actualizar_precios":
@@ -110,7 +113,7 @@ public class Worker extends Thread {
                                 out.flush();
                                 break;
                         }
-                        }
+                    }
                     if (obj instanceof Informacion) {
                         Informacion info = (Informacion) obj;
                         System.out.println(info);
@@ -123,45 +126,45 @@ public class Worker extends Thread {
                         this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), id);
                         //out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
-                        
+
                         ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                         out.writeObject("actualizar");
                         out.flush();
-                        
+
                         ArrayList<Transaccion> transacciones = this.bd.getTransaccionesArray();
                         this.controlador.updateTransacciones(transacciones);
 
-                        System.out.println(">"+trans);
+                        System.out.println(">" + trans);
                     }
 
-                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-                        out.writeObject("OK");
-                        out.flush();
-                    }
+                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                    out.writeObject("OK");
+                    out.flush();
+                }
                 //}
-            }catch(SocketException ex){
-                try{
+            } catch (SocketException ex) {
+                try {
                     this.s.close();
-                   
-                }catch(Exception ex2){
+
+                } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            }catch(EOFException eofex){ 
-                try{
+            } catch (EOFException eofex) {
+                try {
                     this.s.close();
-                    
-                }catch(Exception ex2){
+
+                } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            }catch(IOException ioex){
+            } catch (IOException ioex) {
                 ioex.printStackTrace();
-                    System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
+                System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
             }
-       }
+        }
     }
 
     private ArrayList<String> getLocalIPs() {

@@ -34,6 +34,13 @@ public class Cliente implements Runnable {
     ObjectInputStream din;
     ObjectOutputStream dos;
     boolean primer = true;
+    Transaccion pendiente;
+
+    public Cliente() {
+        pendiente = null;
+    }
+    
+    
     
     public void setTransaccion(Transaccion trans) {
         this.trans = trans;
@@ -60,10 +67,15 @@ public class Cliente implements Runnable {
 
             // establish the connection with server port 5056 
             s = new Socket("25.64.202.245", 5000);
-            //this.isConnected();
+            this.isConnected(true);
             
             System.out.println("INFO: Conectado a sucursal");
             
+            if (pendiente!= null){
+                this.enviarTransaccion(pendiente);
+                System.out.println("se mando pendiente");
+                pendiente = null;
+            }
             
             while (true) {
                 if(1==2){
@@ -100,7 +112,7 @@ public class Cliente implements Runnable {
             dos.close();
             din.close();
         } catch (ConnectException cntex) {
-            //this.isConnected();
+            this.isConnected(false);
             System.out.println("Error en la conexion con la sucursal, reintentando en 5s");
             try {
                 Thread.sleep(5000);
@@ -109,8 +121,8 @@ public class Cliente implements Runnable {
             }
             crearConexion();
         }catch (IOException ioex) {
-           // this.isConnected();
-            ioex.printStackTrace();
+             this.isConnected(false);
+             System.out.println("Error en la conexion con la sucursal, reintentando en 5s");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {
@@ -118,14 +130,14 @@ public class Cliente implements Runnable {
             }
             crearConexion();
         }
-        //this.isConnected();
+        
            catch (ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void isConnected() {
-       boolean conectado = !this.s.isClosed();
+    public void isConnected(boolean con) {
+       boolean conectado = con;
        this.controlador.comprobarConexion(conectado);
     }
     
@@ -140,6 +152,7 @@ public class Cliente implements Runnable {
         } catch (IOException ex) {
             //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("ERROR: No se pudo enviar la transaccion");
+            this.pendiente = t;
         }
     }
 

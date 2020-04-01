@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="surtidorr.FXMLDocumentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="surtidorr.FXMLDocumentController">
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <children>
@@ -20,6 +22,11 @@
                   <Font size="36.0" />
                </font>
             </Label>
+            <Button fx:id="botonConexion" mnemonicParsing="false" prefHeight="25.0" prefWidth="112.0" text="Conexion">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
          </children>
          <BorderPane.margin>
             <Insets left="20.0" right="20.0" />
@@ -36,7 +43,7 @@
                <children>
                   <HBox alignment="CENTER" layoutX="-3.0" layoutY="15.0" prefHeight="50.0" prefWidth="991.0" spacing="10.0">
                      <children>
-                        <ComboBox fx:id="comboBoxTipo" prefWidth="200.0" promptText="Diesel" />
+                        <ComboBox fx:id="comboBoxTipo" prefWidth="200.0" promptText="Seleccionar Tipo" />
                         <TextField fx:id="textFieldLitros" prefWidth="200.0" promptText="Litros" />
                         <Button fx:id="cargarButton" mnemonicParsing="false" onAction="#buttonAction" prefWidth="200.0" text="Cargar" />
                      </children>
