@@ -122,7 +122,11 @@ public class BaseDatos
             String sql = "SELECT id FROM Sucursal ORDER BY id DESC LIMIT 1";
             
             ResultSet rs = stmt.executeQuery(sql);
-            return (rs.getInt(1))+1;
+            if(rs.next()){
+                return (rs.getInt(1))+1;
+            }else{
+                return 1;
+            }
         }catch(Exception ex){
             System.out.println(ex);
             return 1;
@@ -218,7 +222,6 @@ public class BaseDatos
             while(rs.next()){
                 Reporte reporte = new Reporte(rs.getString(1), rs.getLong(2), rs.getLong(3), rs.getLong(4));
                 reportes.add(reporte);
-                System.out.println(reporte);
                 //System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6) + " - " + rs.getString(7));
             }
         }catch(Exception ex){
