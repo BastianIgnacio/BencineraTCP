@@ -99,6 +99,7 @@ public class Worker extends Thread {
             System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Sucursal conectada.");
         }
         this.estado = "Conectado";
+        enviar();
         while(true){
             try{
                 if(!this.s.isClosed()){

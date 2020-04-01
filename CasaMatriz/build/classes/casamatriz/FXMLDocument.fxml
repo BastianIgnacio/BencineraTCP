@@ -46,7 +46,7 @@
          <top>
             <VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="418.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Sucursales">
+                  <Label text="Sucursales ultima sesion">
                      <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
                      </VBox.margin>

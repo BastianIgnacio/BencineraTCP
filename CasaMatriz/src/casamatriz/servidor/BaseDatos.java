@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sucursal.Informacion;
+import sucursal.Reporte;
+import sucursal.Sucursal;
 
 /**
  *
@@ -120,7 +122,11 @@ public class BaseDatos
             String sql = "SELECT id FROM Sucursal ORDER BY id DESC LIMIT 1";
             
             ResultSet rs = stmt.executeQuery(sql);
-            return (rs.getInt(1))+1;
+            if(rs.next()){
+                return (rs.getInt(1))+1;
+            }else{
+                return 1;
+            }
         }catch(Exception ex){
             System.out.println(ex);
             return 1;
@@ -203,6 +209,45 @@ public class BaseDatos
             System.out.println("ERROR: No se pudo obtener el identificar correspondiente al siguiente precio.");
             return -1;
         }
+    }
+    
+    public ArrayList<Reporte> getReporteSucursal(int id){
+        Statement stmt = null;
+        ArrayList<Reporte> reportes = new ArrayList<Reporte>();
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT tipoCombustible, COUNT(id) as cargas, SUM(litros) as total_lts, SUM(total) as total_venta FROM Transaccion WHERE ref_sucursal=" + id +" AND DATE(fecha) = DATE(NOW()) GROUP BY tipoCombustible;";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                Reporte reporte = new Reporte(rs.getString(1), rs.getLong(2), rs.getLong(3), rs.getLong(4));
+                reportes.add(reporte);
+                //System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6) + " - " + rs.getString(7));
+            }
+        }catch(Exception ex){
+            System.out.println("ERROR: No se pudo obtener el identificar correspondiente al siguiente precio.");
+        }
+        return reportes;
+    }
+    
+    public ArrayList<Sucursal> getSucursales(){
+        Statement stmt = null;
+        ArrayList<Sucursal> sucursales = new ArrayList<>();
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT * FROM Sucursal";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                Sucursal suc = new Sucursal(rs.getLong(1), rs.getString(2), rs.getString(3));
+                sucursales.add(suc);
+                //System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6) + " - " + rs.getString(7));
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            System.out.println("ERROR: No se pudo obtener las sucursales.");
+        }
+        return sucursales;
     }
     
     public void actualizarPrecios(Informacion info){

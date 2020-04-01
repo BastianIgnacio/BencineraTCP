@@ -34,7 +34,6 @@ public class CasaMatriz extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
           public void handle(WindowEvent we) {
               System.out.println("INFO: Cerrando servidor sockets.");
-              ctrl.cerrarServidor();
               System.exit(0);
           }
       });   
