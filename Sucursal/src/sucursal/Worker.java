@@ -85,29 +85,30 @@ public class Worker extends Thread {
 
     @Override
     public void run() {
+        boolean primer= true;
         String received = "",
                 toreturn = "";
         if (this.s.isConnected()) {
             System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Surtidor Conectado.");
         }
-        while (true) {
-            try {
-                if (!this.s.isClosed()) {
-                    System.out.println("entreo");
+       
+        while(true){
+            try{
+                if(!this.s.isClosed()){
                     ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-                    Object obj = in.readObject();
-                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-                    System.out.println("Objeto leido " + obj.getClass().toString());
-
-                    if (obj instanceof String) {
-                        String str = (String) obj;
+                    //if(in.available()>0) {
+                        Object obj = in.readObject();
+                        System.out.println("Objeto leido " + obj.getClass().toString());
+                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                        if(obj instanceof String){
+                             String str = (String) obj;
                         System.out.println("Mensaje: " + (String) obj);
                         switch (str) {
                             case "actualizar_precios":
                                 out.writeObject(InfoSurtidor.info);
                                 break;
                         }
-                    }
+                        }
                     if (obj instanceof Informacion) {
                         Informacion info = (Informacion) obj;
                         System.out.println(info);
@@ -124,32 +125,37 @@ public class Worker extends Thread {
                         ArrayList<Transaccion> transacciones = this.bd.getTransaccionesArray();
                         this.controlador.updateTransacciones(transacciones);
 
-                        System.out.println(trans);
+                        System.out.println(">"+trans);
                     }
 
-                    out.writeObject("OK");
-                    out.flush();
-                }
-            } catch (SocketException ex) {
-                try {
+                       
+                        out.writeObject("OK");
+                        out.flush();
+                    }
+                //}
+            }catch(SocketException ex){
+                try{
                     this.s.close();
-                } catch (Exception ex2) {
+                   
+                }catch(Exception ex2){
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            } catch (EOFException eofex) {
-                try {
+            }catch(EOFException eofex){ 
+                try{
                     this.s.close();
-                } catch (Exception ex2) {
+                    
+                }catch(Exception ex2){
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            } catch (IOException ioex) {
-                System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
+            }catch(IOException ioex){
+                ioex.printStackTrace();
+                    System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+       }
     }
 
     private ArrayList<String> getLocalIPs() {
