@@ -68,10 +68,12 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        iniciarServidor();
+        Cliente cliente = new Cliente();
+        cliente.crearConexion();
         
-        BaseDeDatos bdatos = new BaseDeDatos();
+        BaseDeDatos bdatos = BaseDeDatos.crearInstancia();
         ArrayList<Transaccion> bdtrans = bdatos.getTransaccionesArray();
+
         this.tcfecha.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.tctipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
         this.tclitros.setCellValueFactory(new PropertyValueFactory<>("litros"));
@@ -79,6 +81,7 @@ public class FXMLDocumentController implements Initializable {
         this.tctotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         this.tcsurtidor.setCellValueFactory(new PropertyValueFactory<>("refSurtidor"));
         updateTransacciones(bdtrans);
+        
         
     }    
 
