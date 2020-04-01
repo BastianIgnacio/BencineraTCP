@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -68,13 +69,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private BorderPane panelCentro;
     @FXML
-    private TableView<?> tvSucursales;
+    private TableView<Worker> tvSucursales;
     @FXML
-    private TableColumn<?, ?> tcSucurcalNombre;
+    private TableColumn<Worker, String> tcSucurcalNombre;
     @FXML
-    private TableColumn<?, ?> tcSucursalDireccionIp;
+    private TableColumn<Worker, String>  tcSucursalDireccionIp;
     @FXML
-    private TableColumn<?, ?> tcSucursalEstado;
+    private TableColumn<Worker, Boolean> tcSucursalEstado;
     @FXML
     private TableView<?> tvModificaciones;
     @FXML
@@ -94,8 +95,20 @@ public class FXMLDocumentController implements Initializable {
         servidor = new Servidor();
         hiloServer = new Thread(servidor);
         hiloServer.start();
+        
+        iniciarTablesView();
+        
     }    
 
+    private void iniciarTablesView()
+    {
+         this.tcSucurcalNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+         this.tcSucursalDireccionIp.setCellValueFactory(new PropertyValueFactory<>("address"));
+         this.tcModificacionTipo.setCellValueFactory(new PropertyValueFactory<>("estado"));
+    
+    }
+    
+    
     public void cerrarServidor(){
         this.servidor.cerrar();
         this.hiloServer.interrupt();
@@ -109,9 +122,9 @@ public class FXMLDocumentController implements Initializable {
              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLReportes.fxml"));
                BorderPane root1 = (BorderPane) fxmlLoader.load();
                Stage stage = new Stage();
-              // stage.initModality(Modality.APPLICATION_MODAL);
-              // stage.initStyle(StageStyle.UNDECORATED);
-               stage.setTitle("ABC");
+                stage.initModality(Modality.APPLICATION_MODAL);
+               //stage.initStyle(StageStyle.UNDECORATED);
+               stage.setTitle("Generador de reportes");
                stage.setScene(new Scene(root1));  
                stage.show();
             
