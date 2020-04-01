@@ -13,18 +13,29 @@ import java.io.Serializable;
  */
 public class Informacion implements Serializable{
     private static final long serialVersionUID = 6529685098267757545L;
-    private int bencina93;
-    private int bencina95;
-    private int bencina97;
-    private int diesel;
-    private int kerosene;
+    
+    String fecha;
+    int bencina93;
+    int bencina95;
+    int bencina97;
+    int diesel;
+    int kerosene;
 
     public Informacion(int bencina93, int bencina95, int bencina97, int diesel, int kerosene) {
+        this.fecha = "";
         this.bencina93 = bencina93;
         this.bencina95 = bencina95;
         this.bencina97 = bencina97;
         this.diesel = diesel;
         this.kerosene = kerosene;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     public int getBencina93() {

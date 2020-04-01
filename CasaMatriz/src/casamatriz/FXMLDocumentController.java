@@ -12,10 +12,15 @@ import sucursal.Transaccion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -79,19 +84,27 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Worker, String> tcSucursalEstado;
     @FXML
-    private TableView<?> tvModificaciones;
+    private TableView<Informacion> tvModificaciones;
     @FXML
-    private TableColumn<?, ?> tcModificacionTipo;
+    private TableColumn<Informacion, String> tcInfFecha;
     @FXML
-    private TableColumn<?, ?> tcModificacionPrecio;
+    private TableColumn<Informacion, Long> tcInf93;
     @FXML
-    private TableColumn<?, ?> tcModificacionFecha;
+    private TableColumn<Informacion, Long> tcInf95;
+    @FXML
+    private TableColumn<Informacion, Long> tcInf97;
+    @FXML
+    private TableColumn<Informacion, Long> tcInfDiesel;
+    @FXML
+    private TableColumn<Informacion, Long> tcInfKerosene;
     @FXML
     private Button reportes;
     
     Servidor servidor;
     Thread hiloServer;
     BaseDatos bd;
+
+
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,6 +112,7 @@ public class FXMLDocumentController implements Initializable {
         hiloServer = new Thread(servidor);
         hiloServer.start();
         this.bd = BaseDatos.crearInstancia();
+        updatePrecios();
         iniciarTablesView();
     }
 
@@ -107,6 +121,15 @@ public class FXMLDocumentController implements Initializable {
          this.tcSucurcalNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
          this.tcSucursalDireccionIp.setCellValueFactory(new PropertyValueFactory<>("address"));
          this.tcSucursalEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
+         
+         this.tcInfFecha.setCellValueFactory(new PropertyValueFactory<>("fecha"));
+         this.tcInf93.setCellValueFactory(new PropertyValueFactory<>("bencina93"));
+         this.tcInf95.setCellValueFactory(new PropertyValueFactory<>("bencina95"));
+         this.tcInf97.setCellValueFactory(new PropertyValueFactory<>("bencina97"));
+         this.tcInfDiesel.setCellValueFactory(new PropertyValueFactory<>("diesel"));
+         this.tcInfKerosene.setCellValueFactory(new PropertyValueFactory<>("kerosene"));
+         
+         
     
     }
     
@@ -116,6 +139,28 @@ public class FXMLDocumentController implements Initializable {
         this.hiloServer.interrupt();
     }
     
+    private ArrayList<String> getLocalIPs(){
+        ArrayList<String> ips = new ArrayList<String>();
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while(e.hasMoreElements())
+            {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+                
+                while (ee.hasMoreElements())
+                {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    if(i instanceof Inet4Address)
+                        ips.add(i.getHostAddress());
+                }
+            }
+        } catch (SocketException ex) {
+            System.out.println("ERROR: No se pudo obtener las IPs locales.");
+        }
+        return ips;
+    }
+    
     @FXML
     private void buttonAction(ActionEvent event) throws ClassNotFoundException, IOException {
         
@@ -123,6 +168,8 @@ public class FXMLDocumentController implements Initializable {
         {
              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLReportes.fxml"));
                BorderPane root1 = (BorderPane) fxmlLoader.load();
+               FXMLReportesController controller = fxmlLoader.getController();
+               controller.setSucursales(this.servidor.getSucursales());
                Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                //stage.initStyle(StageStyle.UNDECORATED);
@@ -136,6 +183,11 @@ public class FXMLDocumentController implements Initializable {
         {
             String estado = (this.bd.checkConexion())?"CONECTADO":"DESCONECTADO";
             System.out.println("Estado MYSQL: " + estado);
+            ArrayList<String> ips = getLocalIPs();
+            for (String ip : ips) {
+                System.out.println("IPV4: " + ip);
+            }
+            System.out.println("IP: " + InetAddress.getLocalHost().getHostAddress());
         }
         if(event.getSource()==this.preciosActuales){
             System.out.println(SharedInfo.info);
@@ -153,6 +205,8 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 93 => " + precio);
                 SharedInfo.info.setBencina93(precio);
+                this.bd.actualizarPrecios(SharedInfo.info);
+                this.updatePrecios();
                 FileHandler.saveInfo();
                 for (Worker sucursal : servidor.getSucursales()) {
                     sucursal.enviar();
@@ -172,6 +226,8 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 95 => " + precio);
                 SharedInfo.info.setBencina95(precio);
+                this.bd.actualizarPrecios(SharedInfo.info);
+                this.updatePrecios();
                 FileHandler.saveInfo();
                 for (Worker sucursal : servidor.getSucursales()) {
                     sucursal.enviar();
@@ -192,6 +248,8 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio bencina 97 => " + precio);
                 SharedInfo.info.setBencina97(precio);
+                this.bd.actualizarPrecios(SharedInfo.info);
+                this.updatePrecios();
                 FileHandler.saveInfo();
                 for (Worker sucursal : servidor.getSucursales()) {
                     sucursal.enviar();
@@ -212,6 +270,8 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio kerosene => " + precio);
                 SharedInfo.info.setKerosene(precio);
+                this.bd.actualizarPrecios(SharedInfo.info);
+                this.updatePrecios();
                 FileHandler.saveInfo();
                 for (Worker sucursal : servidor.getSucursales()) {
                     sucursal.enviar();
@@ -232,12 +292,15 @@ public class FXMLDocumentController implements Initializable {
                 int precio = Integer.parseInt(result.get());
                 System.out.println("INFO: Nuevo precio diesel=> " + precio);
                 SharedInfo.info.setDiesel(precio);
+                this.bd.actualizarPrecios(SharedInfo.info);
+                this.updatePrecios();
                 FileHandler.saveInfo();
                 for (Worker sucursal : servidor.getSucursales()) {
                     sucursal.enviar();
                 }
             }
         }
+        updatePrecios();
     }
     
     public void updateSucursales(ArrayList<Worker> array)
@@ -245,6 +308,14 @@ public class FXMLDocumentController implements Initializable {
         this.tvSucursales.getItems().clear();
         ObservableList<Worker> data = FXCollections.observableArrayList(array);
         this.tvSucursales.setItems(data);
+    }
+    
+    public void updatePrecios()
+    {
+        this.tvModificaciones.getItems().clear();
+        ArrayList<Informacion> precios = this.bd.getPrecios();
+        ObservableList<Informacion> data = FXCollections.observableArrayList(precios);
+        this.tvModificaciones.setItems(data);
     }
 
 }

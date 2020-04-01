@@ -6,10 +6,12 @@
 package surtidorr;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import sucursal.Informacion;
 
 /**
@@ -27,7 +29,12 @@ public class Surtidorr extends Application {
        
         
        
-        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          public void handle(WindowEvent we) {
+              System.out.println("INFO: Cerrando servidor sockets.");
+              System.exit(0);
+          }
+      });   
         stage.setScene(scene);
         stage.show();
     }
