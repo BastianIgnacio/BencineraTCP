@@ -7,7 +7,7 @@ package casamatriz;
 
 import java.util.Arrays;
 import java.util.List;
-import sucursal.Informacion;
+import casamatriz.modelos.Informacion;
 
 /**
  *

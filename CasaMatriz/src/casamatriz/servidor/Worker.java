@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sucursal.Informacion;
+import casamatriz.modelos.Informacion;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

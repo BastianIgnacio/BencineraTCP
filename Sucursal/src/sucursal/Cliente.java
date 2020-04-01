@@ -20,9 +20,9 @@ import java.util.logging.Logger;
  * @author roduc
  */
 public class Cliente implements Runnable{
-    String ipPrimaria = "25.18.101.131";
-    String ipSecundaria = "25.64.202.245";
-    String nombre = "Jesus Moris";
+    String ipPrimaria = InfoSurtidor.ipPrimaria;
+    String ipSecundaria = InfoSurtidor.ipSecundaria;
+    String nombre = InfoSurtidor.nombreSucursal;
     
     int contador = 1;
     BaseDeDatos bd;
@@ -79,10 +79,13 @@ public class Cliente implements Runnable{
             try {
                 Thread.sleep(5000);
                 InfoSurtidor.intentoConexion++;
+                if(InfoSurtidor.intentoConexion==11){
+                    InfoSurtidor.intentoConexion=0;
+                }
                 if(InfoSurtidor.intentoConexion<=5){
                     System.out.println("ERROR: No se pudo conectar a la casa matriz, intentando conectar a casa matriz primaria.");
                     crearConexion(ipPrimaria);
-                }else{
+                }else if(InfoSurtidor.intentoConexion>5 && InfoSurtidor.intentoConexion<=10){
                     System.out.println("ERROR: No se pudo conectar a la casa matriz, intentando conectar a casa matriz secundaria.");
                     crearConexion(ipSecundaria);
                 }
@@ -93,10 +96,13 @@ public class Cliente implements Runnable{
             try {
                 Thread.sleep(5000);
                 InfoSurtidor.intentoConexion++;
+                if(InfoSurtidor.intentoConexion==11){
+                    InfoSurtidor.intentoConexion=0;
+                }
                 if(InfoSurtidor.intentoConexion<=5){
                     System.out.println("ERROR: No se pudo conectar a la casa matriz, intentando conectar a casa matriz primaria.");
                     crearConexion(ipPrimaria);
-                }else{
+                }else if(InfoSurtidor.intentoConexion>5 && InfoSurtidor.intentoConexion<=10){
                     System.out.println("ERROR: No se pudo conectar a la casa matriz, intentando conectar a casa matriz secundaria.");
                     crearConexion(ipSecundaria);
                 }

@@ -86,6 +86,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Transaccion, Integer> tc_cc_total;
     private Cliente cliente;
+    @FXML
+    private Label titulo;
     
     
     
@@ -171,7 +173,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        
+        this.titulo.setText("Surtidor #"+SharedInfo.idSurtidor);
          this.cliente = new Cliente();
          cliente.setControler(this);
          SharedInfo.info = new Informacion(0,0,0,0,0);

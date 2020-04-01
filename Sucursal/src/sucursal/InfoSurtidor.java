@@ -29,4 +29,7 @@ public class InfoSurtidor {
     public static Timestamp comienzo;
     public static Timestamp termino;
     public static String refSurtidor;
+    public static String nombreSucursal = "";
+    public static String ipPrimaria = "";
+    public static String ipSecundaria = "";
 }

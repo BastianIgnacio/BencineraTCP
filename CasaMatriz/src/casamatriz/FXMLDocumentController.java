@@ -8,7 +8,7 @@ package casamatriz;
 import casamatriz.servidor.BaseDatos;
 import casamatriz.servidor.Servidor;
 import casamatriz.servidor.Worker;
-import sucursal.Transaccion;
+import casamatriz.modelos.Transaccion;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -42,7 +42,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sucursal.Informacion;
+import casamatriz.modelos.Informacion;
 
 /**
  *
