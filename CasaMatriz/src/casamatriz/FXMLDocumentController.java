@@ -5,6 +5,7 @@
  */
 package casamatriz;
 
+import casamatriz.servidor.BaseDatos;
 import casamatriz.servidor.Servidor;
 import casamatriz.servidor.Worker;
 import sucursal.Transaccion;
@@ -40,7 +41,7 @@ import sucursal.Informacion;
 
 /**
  *
- * @author macbook
+ * @author macbook, moris
  */
 public class FXMLDocumentController implements Initializable {
     
@@ -90,13 +91,14 @@ public class FXMLDocumentController implements Initializable {
     
     Servidor servidor;
     Thread hiloServer;
+    BaseDatos bd;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         servidor = new Servidor(this);
         hiloServer = new Thread(servidor);
         hiloServer.start();
-        
+        this.bd = BaseDatos.crearInstancia();
         iniciarTablesView();
     }
 
@@ -132,7 +134,8 @@ public class FXMLDocumentController implements Initializable {
         
         if(event.getSource()==this.establecer_cliente)
         {
-            
+            String estado = (this.bd.checkConexion())?"CONECTADO":"DESCONECTADO";
+            System.out.println("Estado MYSQL: " + estado);
         }
         if(event.getSource()==this.preciosActuales){
             System.out.println(SharedInfo.info);

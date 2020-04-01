@@ -34,7 +34,7 @@ public class Worker extends Thread {
     DateFormat fortime = new SimpleDateFormat("hh:mm:ss"); 
     String address;
     final Socket s; 
-    String nombre;
+    String nombre = "Sucursal sin nombre";
     String estado;
     Servidor server;
     // Constructor 
@@ -100,22 +100,32 @@ public class Worker extends Thread {
         while(true){
             try{
                 if(!this.s.isClosed()){
-                    ObjectInputStream in = new ObjectInputStream(s.getInputStream()); 
-                    Object obj = in.readObject();
-                    System.out.println("Objeto leido " + obj.getClass().toString());
-                    
-                    if(obj instanceof String){
-                        System.out.println("Mensaje: " + (String)obj);
+                    ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+                    //if(in.available()>0) {
+                        Object obj = in.readObject();
+                        System.out.println("Objeto leido " + obj.getClass().toString());
+
+                        if(obj instanceof String){
+                            String cmd = (String)obj;
+                            if(cmd.contains("Nombre:")){
+                                String[] nombre = cmd.split(":");
+                                System.out.println("Nombre de la sucursal: " + nombre[1]);
+                                this.nombre = nombre[1];
+                                this.server.updateSucursales();
+                            }else{
+                                System.out.println("Mensaje: " + (String)obj);
+                            }
+                        }
+                        if(obj instanceof Informacion){
+                            Informacion info = (Informacion)obj;
+                            System.out.println(info);
+                        }
+
+                        ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                        out.writeObject("OK");
+                        out.flush();
                     }
-                    if(obj instanceof Informacion){
-                        Informacion info = (Informacion)obj;
-                        System.out.println(info);
-                    }
-                    
-                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-                    out.writeObject("OK");
-                    out.flush();
-                }
+                //}
             }catch(SocketException ex){
                 try{
                     this.s.close();
@@ -135,6 +145,7 @@ public class Worker extends Thread {
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
             }catch(IOException ioex){
+                ioex.printStackTrace();
                     System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
