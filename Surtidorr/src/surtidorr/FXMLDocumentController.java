@@ -96,7 +96,7 @@ public class FXMLDocumentController implements Initializable {
             Transaccion t = this.crear("93",parseInt(field93.getText()));
             Cliente cliente = new Cliente();
             cliente.setTransaccion(t);
-            new Thread(cliente).start();
+            cliente.crearConexion();
             field93.setText("");
         }
         
@@ -104,9 +104,13 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field95.getText());
             Transaccion t = this.crear("95",parseInt(field95.getText()));
-            Cliente cliente = new Cliente();
+            Cliente cliente =new Cliente();
             cliente.setTransaccion(t);
-            new Thread(cliente).start();
+                        cliente.crearConexion();
+
+            /*Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();*/
             field95.setText("");
         }
         
@@ -114,9 +118,12 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field97.getText());
             Transaccion t = this.crear("97",parseInt(field97.getText()));
-            Cliente cliente = new Cliente();
+            Cliente cliente =new Cliente();
             cliente.setTransaccion(t);
-            new Thread(cliente).start();
+            cliente.crearConexion();
+            /*Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();*/
             field97.setText("");
         }
         
@@ -124,9 +131,12 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(fieldDiesel.getText());
             Transaccion t = this.crear("diesel",parseInt(fieldDiesel.getText()));
-            Cliente cliente = new Cliente();
+            Cliente cliente =new Cliente();
             cliente.setTransaccion(t);
-            new Thread(cliente).start();
+            cliente.crearConexion();
+            /*Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();*/
             fieldDiesel.setText("");
         }
         
@@ -134,9 +144,12 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(fieldKerosene.getText());
             Transaccion t = this.crear("kerosene",parseInt(fieldKerosene.getText()));
-            Cliente cliente = new Cliente();
+            Cliente cliente =new Cliente();
             cliente.setTransaccion(t);
-            new Thread(cliente).start();
+            cliente.crearConexion();
+            /*Cliente cliente = new Cliente();
+            cliente.setTransaccion(t);
+            new Thread(cliente).start();*/
             fieldKerosene.setText("");
         }
         

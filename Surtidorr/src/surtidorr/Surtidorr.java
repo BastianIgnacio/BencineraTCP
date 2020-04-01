@@ -27,7 +27,7 @@ public class Surtidorr extends Application {
         SharedInfo.info = new Informacion(0,0,0,0,0);
         Cliente c = new Cliente();
         c.setComando("actualizar_precios");
-        new Thread(c).start();
+        c.crearConexion();
         
         stage.setScene(scene);
         stage.show();

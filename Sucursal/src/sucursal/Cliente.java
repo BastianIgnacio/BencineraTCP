@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package surtidorr;
+package sucursal;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,28 +11,22 @@ import java.io.ObjectOutputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sucursal.Transaccion;
 
 /**
  *
  * @author roduc
  */
 public class Cliente {
+    BaseDeDatos bd;
    
-    Transaccion trans;
-    String comando;
-    ArrayList<Transaccion> pendientes;
-    public void setTransaccion(Transaccion trans){
-        this.trans = trans;
+
+    public Cliente() {
+        this.bd = BaseDeDatos.crearInstancia();
     }
     
-    public void setComando(String cmd){
-        this.comando = cmd;
-    }
     
 
     public void crearConexion() {
@@ -57,17 +51,17 @@ public class Cliente {
                 //              Object obj = dis.readObject();
 //                System.out.println((String)obj);
                 dos = new ObjectOutputStream(s.getOutputStream());
-                System.out.print("Enviar respuesta:");
+                //System.out.print("Enviar respuesta:");
                 //String tosend = scn.nextLine();
                 String tosend ="conexion abierta";
-                dos.writeObject(tosend);
-                dos.flush();
+                //dos.writeObject(tosend);
+                //dos.flush();
 
                 // If client sends exit,close this connection  
                 // and then break from the while loop 
                 if (tosend.equals("Exit")) {
                     System.out.println("Closing this connection : " + s);
-                    s.close();
+                    
                     System.out.println("Connection closed");
                     break;
                 }
@@ -75,14 +69,24 @@ public class Cliente {
                 din = new ObjectInputStream(s.getInputStream());
                 Object obj = din.readObject();
                 
-                if (obj instanceof String) {
+
+                if (obj instanceof Informacion) {
+                    Informacion info = (Informacion) obj;
+                    InfoSurtidor.info = info;
+                    this.bd.actualizarPrecios(info);
+                    this.bd.getPrecios();
+                    System.out.println(info);
+                }
+                else if (obj instanceof String) {
                     String str = (String) obj;
                     System.out.println("Mensaje: " + (String) obj);
-                    
+                    switch (str) {
+                        case "actualizar_precios":
+                            dos.writeObject(InfoSurtidor.info);
+                            dos.flush();
+                            break;
+                    }
                 }
-                
-
-               
                 // printing date or time as requested by client
                 // 
             }
@@ -100,7 +104,13 @@ public class Cliente {
             }
             crearConexion();
         } catch (IOException ioex) {
-            System.out.println("Excepcion en flujos");
+            System.out.println("Se corto la comunicacion, reintentando en 5s");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            crearConexion();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
