@@ -172,7 +172,6 @@ public class FXMLDocumentController implements Initializable {
          this.cliente = new Cliente();
          cliente.setControler(this);
          SharedInfo.info = new Informacion(0,0,0,0,0);
-         cliente.setComando("actualizar_precios");
          new Thread(cliente).start();
         
         this.comboBoxTipo.getItems().add("Kerosene");

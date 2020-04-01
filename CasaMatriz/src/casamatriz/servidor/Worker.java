@@ -79,7 +79,7 @@ public class Worker extends Thread {
             out.writeObject(SharedInfo.info);
             out.flush();
         } catch (IOException ex) {
-            Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR: No se pudo enviar los precios actualizados.");
         }
     }
     
