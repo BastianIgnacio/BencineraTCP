@@ -169,7 +169,6 @@ public class FXMLDocumentController implements Initializable {
              FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLReportes.fxml"));
                BorderPane root1 = (BorderPane) fxmlLoader.load();
                FXMLReportesController controller = fxmlLoader.getController();
-               controller.setSucursales(this.servidor.getSucursales());
                Stage stage = new Stage();
                 stage.initModality(Modality.APPLICATION_MODAL);
                //stage.initStyle(StageStyle.UNDECORATED);
