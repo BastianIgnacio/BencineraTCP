@@ -209,6 +209,47 @@ public class BaseDeDatos {
             System.out.println(ex);
         }
     }
+    
+    
+    
+     public void insertFalla(Timestamp fecha_caida, Timestamp fecha_reconexion, String ref_surtidor) {
+        Statement stmt = null;
+        PreparedStatement ps = null;
+        try {
+            String str = "INSERT INTO Fallas VALUES(?,?,?,?)";
+            ps = con.prepareStatement(str);
+            ps.setInt(1, getIdFalla());
+            ps.setTimestamp(2, fecha_caida);
+            ps.setTimestamp(3, fecha_reconexion);
+            ps.setString(4, ref_surtidor);
+            
+            if (ps.execute()) {
+                System.out.println("INFO: Falla insertada exitosamente.");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
+     
+     private int getIdFalla() {
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Fallas ORDER BY id DESC LIMIT 1";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1) + 1;
+
+            } else {
+                return 1;
+            }
+        } catch (Exception ex) {
+            System.out.println("ERROR: No se pudo obtener el identificar correspondiente al siguiente fallo.");
+            return 1;
+        }
+    }
+    
 /*
     public void actualizarPrecios(Informacion info) {
         Statement stmt = null;

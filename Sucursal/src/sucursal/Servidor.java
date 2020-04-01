@@ -72,6 +72,13 @@ public class Servidor implements Runnable {
             while(true){
                 System.out.println("Esperando..");
                 sc = servidor.accept();
+                if (InfoSurtidor.caida == true){
+                    InfoSurtidor.termino = new Timestamp(new java.util.Date().getTime());
+                    InfoSurtidor.caida = false;
+                    System.out.println("comienzo: " + InfoSurtidor.comienzo);
+                    System.out.println("final: " + InfoSurtidor.termino);
+                    bd.insertFalla(InfoSurtidor.comienzo, InfoSurtidor.termino, InfoSurtidor.refSurtidor);
+                }
                 Worker w = new Worker(sc,bd,controlador);
                 
                 this.checkSucursal(w);

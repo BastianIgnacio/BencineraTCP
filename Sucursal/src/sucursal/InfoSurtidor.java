@@ -5,6 +5,8 @@
  */
 package sucursal;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author roduc
@@ -23,4 +25,8 @@ public class InfoSurtidor {
     public static Informacion info;
     public static int margen;
     public static int intentoConexion = 1;
+    public static boolean caida = false;
+    public static Timestamp comienzo;
+    public static Timestamp termino;
+    public static String refSurtidor;
 }

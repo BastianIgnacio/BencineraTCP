@@ -13,6 +13,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class Worker extends Thread {
     BaseDeDatos bd;
     FXMLDocumentController controlador;
     int id = 0;
+    
+    
 
     // Constructor 
     public Worker(Socket s, BaseDeDatos base, FXMLDocumentController cont) {
@@ -149,7 +152,14 @@ public class Worker extends Thread {
                 } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
-                System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
+                System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente1.");
+                
+                if (InfoSurtidor.caida == false){
+                    InfoSurtidor.comienzo = new Timestamp(new java.util.Date().getTime());
+                    InfoSurtidor.refSurtidor =  getAddress();
+                    InfoSurtidor.caida = true;
+                }
+                
             } catch (EOFException eofex) {
                 try {
                     this.s.close();
@@ -157,7 +167,7 @@ public class Worker extends Thread {
                 } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
-                System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
+                System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente2.");
             } catch (IOException ioex) {
                 ioex.printStackTrace();
                 System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
