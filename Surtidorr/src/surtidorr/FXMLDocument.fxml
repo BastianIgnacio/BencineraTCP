@@ -17,7 +17,7 @@
    <top>
       <HBox alignment="CENTER_LEFT" prefHeight="80.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Surtidor $numero $sucursal">
+            <Label fx:id="titulo" text="Surtidor $numero $sucursal">
                <font>
                   <Font size="36.0" />
                </font>

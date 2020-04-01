@@ -66,7 +66,7 @@ public class Cliente implements Runnable {
             InetAddress ip = InetAddress.getByName("localhost");
 
             // establish the connection with server port 5056 
-            s = new Socket("25.64.202.245", 5000);
+            s = new Socket(SharedInfo.ipSucursal, 5000);
             this.isConnected(true);
             
             System.out.println("INFO: Conectado a sucursal");
