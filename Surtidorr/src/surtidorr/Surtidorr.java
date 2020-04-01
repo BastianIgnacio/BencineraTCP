@@ -24,10 +24,9 @@ public class Surtidorr extends Application {
         
         Scene scene = new Scene(root);
         // Se inicia hilo con comando de actualizacion de precios.
-        SharedInfo.info = new Informacion(0,0,0,0,0);
-        Cliente c = new Cliente();
-        c.setComando("actualizar_precios");
-        c.crearConexion();
+       
+        
+       
         
         stage.setScene(scene);
         stage.show();

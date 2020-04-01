@@ -19,13 +19,19 @@ import java.util.logging.Logger;
  *
  * @author roduc
  */
-public class Cliente {
+public class Cliente implements Runnable{
     BaseDeDatos bd;
    
 
     public Cliente() {
         this.bd = BaseDeDatos.crearInstancia();
     }
+    
+     @Override
+    public void run() {
+        this.crearConexion();
+    }
+   
     
     
 
@@ -42,6 +48,9 @@ public class Cliente {
 
             ObjectOutputStream dos = null;
             ObjectInputStream din = null;
+            dos = new ObjectOutputStream(s.getOutputStream());
+            dos.writeObject("Nombre:Rodrigo Letelier");
+            dos.flush();
             // obtaining input and out streams 
             //ObjectInputStream dis = new ObjectInputStream(s.getInputStream()); 
 
@@ -50,7 +59,7 @@ public class Cliente {
             while (true) {
                 //              Object obj = dis.readObject();
 //                System.out.println((String)obj);
-                dos = new ObjectOutputStream(s.getOutputStream());
+               
                 //System.out.print("Enviar respuesta:");
                 //String tosend = scn.nextLine();
                 String tosend ="conexion abierta";
@@ -115,6 +124,7 @@ public class Cliente {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
    
    
     

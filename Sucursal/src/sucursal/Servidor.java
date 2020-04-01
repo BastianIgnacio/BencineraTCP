@@ -27,19 +27,19 @@ public class Servidor implements Runnable {
 
     BaseDeDatos bd;
 
-     ArrayList<Worker> sucursales;
+     ArrayList<Worker> surtidores;
     
     FXMLDocumentController controlador; 
     
     
     
     public Servidor(){
-        this.sucursales = new ArrayList<>();
+        this.surtidores = new ArrayList<>();
         this.bd = BaseDeDatos.crearInstancia();
     }
     
      public void checkSucursales(){
-        for (Worker suc : this.sucursales) {
+        for (Worker suc : this.surtidores) {
             suc.check();
             if(suc.isConnected()){
                 System.out.println("Sucursal " + suc.getAddress() + " en linea.");
@@ -50,10 +50,10 @@ public class Servidor implements Runnable {
     }
      
      public void checkSucursal(Worker newSuc){
-        ArrayList<Worker> copia = new ArrayList<>(this.sucursales);
+        ArrayList<Worker> copia = new ArrayList<>(this.surtidores);
         for (Worker suc : copia) {
             if(suc.getAddress().equals(newSuc.getAddress())){
-                this.sucursales.remove(suc);
+                this.surtidores.remove(suc);
             }
         }
     }
@@ -75,7 +75,7 @@ public class Servidor implements Runnable {
                 Worker w = new Worker(sc,bd,controlador);
                 
                 this.checkSucursal(w);
-                this.sucursales.add(w);
+                this.surtidores.add(w);
                 new Thread(w).start();
                 
             }
