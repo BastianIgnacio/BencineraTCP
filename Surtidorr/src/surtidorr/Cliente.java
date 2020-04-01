@@ -15,28 +15,41 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sucursal.Informacion;
 import sucursal.Transaccion;
 
 /**
  *
  * @author roduc
  */
-public class Cliente {
-   
+public class Cliente implements Runnable {
+
     Transaccion trans;
-    String comando;
+    String comando = null;
     ArrayList<Transaccion> pendientes;
-    public void setTransaccion(Transaccion trans){
+    Socket s;
+    boolean conexion;
+    FXMLDocumentController controlador; 
+
+    public void setTransaccion(Transaccion trans) {
         this.trans = trans;
     }
-    
-    public void setComando(String cmd){
+
+    public void setComando(String cmd) {
         this.comando = cmd;
     }
     
+    public void setControler(FXMLDocumentController cont){
+        this.controlador = cont;
+    }
 
-    public void crearConexion() {
-        Socket s = null;
+    @Override
+    public void run() {
+        this.crearConexion();
+    }
+
+    public void crearConexion()  {
+        this.s = null;
         try {
             Scanner scn = new Scanner(System.in);
 
@@ -44,27 +57,30 @@ public class Cliente {
             InetAddress ip = InetAddress.getByName("localhost");
 
             // establish the connection with server port 5056 
-            s = new Socket("25.18.101.131", 5000);
+            s = new Socket("25.64.202.245", 5000);
+            //this.isConnected();
+            
+            
 
             ObjectOutputStream dos = null;
             ObjectInputStream din = null;
-            // obtaining input and out streams 
-            //ObjectInputStream dis = new ObjectInputStream(s.getInputStream()); 
-
-            // the following loop performs the exchange of 
-            // information between client and client handler 
-            while (true) {
-                //              Object obj = dis.readObject();
-//                System.out.println((String)obj);
-                dos = new ObjectOutputStream(s.getOutputStream());
-                System.out.print("Enviar respuesta:");
-                //String tosend = scn.nextLine();
-                String tosend ="conexion abierta";
-                dos.writeObject(tosend);
+            dos = new ObjectOutputStream(s.getOutputStream());
+            if (this.comando != null) {
+                dos.writeObject(this.comando);
                 dos.flush();
+            }
+               
+            while (true) {
+                //Object obj = dis.readObject();
+//              System.out.println((String)obj);
+                
+                //System.out.print("Enviar respuesta:");
+                //String tosend = scn.nextLine();
+                String tosend = "conexion abierta";
+                //dos.writeObject(tosend);
+                //dos.flush();
+                
 
-                // If client sends exit,close this connection  
-                // and then break from the while loop 
                 if (tosend.equals("Exit")) {
                     System.out.println("Closing this connection : " + s);
                     s.close();
@@ -72,19 +88,27 @@ public class Cliente {
                     break;
                 }
 
+               
+
                 din = new ObjectInputStream(s.getInputStream());
                 Object obj = din.readObject();
-                
+
                 if (obj instanceof String) {
                     String str = (String) obj;
                     System.out.println("Mensaje: " + (String) obj);
-                    
-                }
-                
 
-               
-                // printing date or time as requested by client
-                // 
+                }
+
+                if (obj instanceof Informacion) {
+                    Informacion info = (Informacion) obj;
+                    SharedInfo.info = info;
+                    System.out.println(info);
+                } else if (obj instanceof Transaccion) {
+                    Transaccion trans = (Transaccion) obj;
+                    System.out.println(trans);
+                    System.out.println((String) din.readObject());
+                }
+
             }
 
             // closing resources 
@@ -92,7 +116,8 @@ public class Cliente {
             dos.close();
             din.close();
         } catch (ConnectException cntex) {
-            System.out.println("No se pudo conectara l servidor, reintentando en 5s");
+            //this.isConnected();
+            System.out.println("Error en la coneccion con la sucursal, reintentando en 5s");
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException ex) {
@@ -100,14 +125,36 @@ public class Cliente {
             }
             crearConexion();
         } catch (IOException ioex) {
+           // this.isConnected();
             System.out.println("Excepcion en flujos");
-        } catch (ClassNotFoundException ex) {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            crearConexion();
+        }catch (ClassNotFoundException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
-   
+
+    public void isConnected() {
+       boolean conectado = !this.s.isClosed();
+       this.controlador.comprobarConexion(conectado);
+    }
     
-    
+    public void enviarTransaccion(Transaccion t) throws IOException{
+       
+        ObjectOutputStream out = null;
+        try {
+             System.out.println("enviar");
+            out = new ObjectOutputStream(s.getOutputStream());
+            out.writeObject(t);
+            out.close();
+        } catch (IOException ex) {
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+        }
+    }
 
 }

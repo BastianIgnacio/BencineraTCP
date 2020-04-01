@@ -1,6 +1,5 @@
 package sucursal;
 
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.EOFException;
@@ -9,12 +8,16 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import sucursal.Informacion;
@@ -24,36 +27,46 @@ import sucursal.Informacion;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author moris
  */
 public class Worker extends Thread {
-    DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd"); 
-    DateFormat fortime = new SimpleDateFormat("hh:mm:ss"); 
+
+    DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat fortime = new SimpleDateFormat("hh:mm:ss");
     String address;
-    final Socket s; 
+    final Socket s;
     BaseDeDatos bd;
-    FXMLDocumentController controlador; 
-  
+    FXMLDocumentController controlador;
+    int id = 0;
     // Constructor 
-    public Worker(Socket s ,BaseDeDatos base , FXMLDocumentController cont) { 
-        this.s = s; 
+    public Worker(Socket s, BaseDeDatos base, FXMLDocumentController cont) {
+        this.s = s;
         this.address = s.getInetAddress().getHostAddress();
         this.bd = base;
         this.controlador = cont;
-    } 
-    
-    public boolean isConnected(){
+       
+       /* ArrayList<String> ips = this.getLocalIPs();
+
+        for (String ip : ips) {
+            if (bd.checkSucursal(ip) != -1) {
+                id = bd.checkSucursal(ip);
+               
+            }
+        }
+         System.out.println(id);*/
+    }
+
+    public boolean isConnected() {
         return !this.s.isClosed();
     }
-    
-    public String getAddress(){
+
+    public String getAddress() {
         return this.address;
     }
-    
-    public void check(){
+
+    public void check() {
         ObjectOutputStream out = null;
         try {
             out = new ObjectOutputStream(s.getOutputStream());
@@ -69,99 +82,120 @@ public class Worker extends Thread {
             }
         }
     }
-  
+
     @Override
     public void run() {
         String received = "",
-               toreturn = "";
-        if(this.s.isConnected()){
-            System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Sucursal conectada.");
+                toreturn = "";
+        if (this.s.isConnected()) {
+            System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Surtidor Conectado.");
         }
-        while(true){
-            try{
-                if(!this.s.isClosed()){
-                    ObjectInputStream in = new ObjectInputStream(s.getInputStream()); 
+        while (true) {
+            try {
+                if (!this.s.isClosed()) {
+                    System.out.println("entreo");
+                    ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                     Object obj = in.readObject();
-                      ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+                    ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                     System.out.println("Objeto leido " + obj.getClass().toString());
-                    
-                    if(obj instanceof String){
-                        String str = (String)obj;
-                        System.out.println("Mensaje: " + (String)obj);
-                        switch(str){
+
+                    if (obj instanceof String) {
+                        String str = (String) obj;
+                        System.out.println("Mensaje: " + (String) obj);
+                        switch (str) {
                             case "actualizar_precios":
                                 out.writeObject(InfoSurtidor.info);
                                 break;
                         }
                     }
-                    if(obj instanceof Informacion){
-                        Informacion info = (Informacion)obj;
-                        InfoSurtidor.info = info;
-                        this.bd.actualizarPrecios(info);
-                        this.bd.getPrecios();
+                    if (obj instanceof Informacion) {
+                        Informacion info = (Informacion) obj;
                         System.out.println(info);
-                    }else if(obj instanceof Transaccion){
-                        Transaccion trans = (Transaccion)obj;
-                        this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), trans.getRefSurtidor());
+                    }
+                    if (obj instanceof Transaccion) {
+                        System.out.println("entra");
+                        Transaccion trans = (Transaccion) obj;
+                        System.out.println(trans.getTipoCombustible());
+
+                        this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), id);
                         out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
-                        
+
                         ArrayList<Transaccion> transacciones = this.bd.getTransaccionesArray();
                         this.controlador.updateTransacciones(transacciones);
-                        
-                        
+
                         System.out.println(trans);
                     }
-                    
-                  
+
                     out.writeObject("OK");
                     out.flush();
                 }
-            }catch(SocketException ex){
-                try{
+            } catch (SocketException ex) {
+                try {
                     this.s.close();
-                }catch(Exception ex2){
+                } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            }catch(EOFException eofex){ 
-                try{
+            } catch (EOFException eofex) {
+                try {
                     this.s.close();
-                }catch(Exception ex2){
+                } catch (Exception ex2) {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente.");
-            }catch(IOException ioex){
-                    System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
+            } catch (IOException ioex) {
+                System.out.println("ERROR: Hubo un error al intentar manejar el flujo de datos.");
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
             }
-       }
+        }
     }
-    
+
+    private ArrayList<String> getLocalIPs() {
+        ArrayList<String> ips = new ArrayList<String>();
+        try {
+            Enumeration e = NetworkInterface.getNetworkInterfaces();
+            while (e.hasMoreElements()) {
+                NetworkInterface n = (NetworkInterface) e.nextElement();
+                Enumeration ee = n.getInetAddresses();
+
+                while (ee.hasMoreElements()) {
+                    InetAddress i = (InetAddress) ee.nextElement();
+                    if (i instanceof Inet4Address) {
+                        ips.add(i.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            System.out.println("ERROR: No se pudo obtener las IPs locales.");
+        }
+        return ips;
+    }
+
     private void actualizarCantidades(Transaccion trans) {
-         switch(trans.getTipoCombustible()){
+        switch (trans.getTipoCombustible()) {
             case "93":
-                InfoSurtidor.cantidad93+=trans.getLitros();
+                InfoSurtidor.cantidad93 += trans.getLitros();
                 InfoSurtidor.cargas93++;
                 break;
             case "95":
-                InfoSurtidor.cantidad95+=trans.getLitros();
+                InfoSurtidor.cantidad95 += trans.getLitros();
                 InfoSurtidor.cargas95++;
                 break;
             case "97":
-                InfoSurtidor.cantidad97+=trans.getLitros();
+                InfoSurtidor.cantidad97 += trans.getLitros();
                 InfoSurtidor.cargas97++;
                 break;
             case "kerosene":
-                InfoSurtidor.cantidadKerosene+=trans.getLitros();
+                InfoSurtidor.cantidadKerosene += trans.getLitros();
                 InfoSurtidor.cargasKerosene++;
                 break;
             case "diesel":
-                InfoSurtidor.cantidadDiesel+=trans.getLitros();
+                InfoSurtidor.cantidadDiesel += trans.getLitros();
                 InfoSurtidor.cargasDiesel++;
                 break;
         }
     }
 
-} 
+}

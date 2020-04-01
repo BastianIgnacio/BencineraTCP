@@ -32,6 +32,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.converter.IntegerStringConverter;
+import sucursal.Informacion;
 import sucursal.Transaccion;
 
 /**
@@ -82,21 +83,23 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Transaccion, Integer>  tc_cc_precio_litro;
     @FXML
     private TableColumn<Transaccion, Integer> tc_cc_total;
+    private Cliente cliente;
+    
+    
     
     @FXML
-    private void buttonAction(ActionEvent event) throws ClassNotFoundException {
+    private void buttonAction(ActionEvent event) throws ClassNotFoundException, IOException {
         
         if(event.getSource()==this.cargarButton)
         {
-            System.out.println("Cargar");
+            Transaccion t = this.crear("93",parseInt(textFieldLitros.getText()));
+            cliente.enviarTransaccion(t);
         }
         if(event.getSource()==this.boton93)
         {
             System.out.println(field93.getText());
             Transaccion t = this.crear("93",parseInt(field93.getText()));
-            Cliente cliente = new Cliente();
-            cliente.setTransaccion(t);
-            cliente.crearConexion();
+            cliente.enviarTransaccion(t);
             field93.setText("");
         }
         
@@ -104,13 +107,7 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field95.getText());
             Transaccion t = this.crear("95",parseInt(field95.getText()));
-            Cliente cliente =new Cliente();
-            cliente.setTransaccion(t);
-                        cliente.crearConexion();
-
-            /*Cliente cliente = new Cliente();
-            cliente.setTransaccion(t);
-            new Thread(cliente).start();*/
+            cliente.enviarTransaccion(t);
             field95.setText("");
         }
         
@@ -118,12 +115,7 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(field97.getText());
             Transaccion t = this.crear("97",parseInt(field97.getText()));
-            Cliente cliente =new Cliente();
-            cliente.setTransaccion(t);
-            cliente.crearConexion();
-            /*Cliente cliente = new Cliente();
-            cliente.setTransaccion(t);
-            new Thread(cliente).start();*/
+            cliente.enviarTransaccion(t);
             field97.setText("");
         }
         
@@ -131,12 +123,8 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(fieldDiesel.getText());
             Transaccion t = this.crear("diesel",parseInt(fieldDiesel.getText()));
-            Cliente cliente =new Cliente();
-            cliente.setTransaccion(t);
-            cliente.crearConexion();
-            /*Cliente cliente = new Cliente();
-            cliente.setTransaccion(t);
-            new Thread(cliente).start();*/
+            
+            cliente.enviarTransaccion(t);
             fieldDiesel.setText("");
         }
         
@@ -144,12 +132,7 @@ public class FXMLDocumentController implements Initializable {
         {
             System.out.println(fieldKerosene.getText());
             Transaccion t = this.crear("kerosene",parseInt(fieldKerosene.getText()));
-            Cliente cliente =new Cliente();
-            cliente.setTransaccion(t);
-            cliente.crearConexion();
-            /*Cliente cliente = new Cliente();
-            cliente.setTransaccion(t);
-            new Thread(cliente).start();*/
+            cliente.enviarTransaccion(t);
             fieldKerosene.setText("");
         }
         
@@ -185,6 +168,12 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        
+         this.cliente = new Cliente();
+         cliente.setControler(this);
+         SharedInfo.info = new Informacion(0,0,0,0,0);
+         cliente.setComando("actualizar_precios");
+         new Thread(cliente).start();
         
         this.comboBoxTipo.getItems().add("Kerosene");
         this.comboBoxTipo.getItems().add("Diesel");
@@ -246,6 +235,18 @@ public class FXMLDocumentController implements Initializable {
         
         ObservableList<Transaccion> data = FXCollections.observableArrayList(transacciones);
         this.tbCargasEnCola.setItems(data);
+    }
+    
+    public void comprobarConexion(boolean isConnected){
+        if (!isConnected == true){
+            cargarButton.setDisable(true);
+            cargarButton.setText("Sin Conexion");
+        }
+        else{
+            cargarButton.setDisable(true);
+            cargarButton.setText("Sin Conexion");
+        }
+        
     }
     
     

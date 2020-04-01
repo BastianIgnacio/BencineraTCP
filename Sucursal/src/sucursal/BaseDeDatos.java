@@ -28,12 +28,13 @@ public class BaseDeDatos
     private static BaseDeDatos bd;
 
     // El constructor es privado, no permite que se genere un constructor por defecto.
-    BaseDeDatos() {
+    private BaseDeDatos() {
         try {
-            Class.forName("org.sqlite.JDBC");
-            this.con = DriverManager.getConnection("jdbc:sqlite:bencinera.db");
+            Class.forName("com.mysql.jdbc.Driver");
+            this.con = DriverManager.getConnection("jdbc:mysql://3.14.93.219:3306/bencinera", "distribuidos", "distribuidos");
         } catch (Exception ex) {
-            Logger.getLogger(BaseDeDatos.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("ERROR: Problemas al abrir conexion con la base de datos.");
+            System.out.println(ex);
         }
     }
 
@@ -54,6 +55,22 @@ public class BaseDeDatos
             System.out.println("ERROR: No se pudo cerrar la conexion a la base de datos.");
         }
     }
+    
+     public boolean checkConexion(){
+        try {
+            if(!this.con.isClosed()){
+                return true;
+            }else{
+                return false;
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR: ");
+        }
+        return false;
+    }
+     
+     
     
     public void insertSurtidor(long precio93,long precio95, long precio97,long precioDiesel,long precioKerosene){
         Statement stmt = null;
@@ -116,6 +133,23 @@ public class BaseDeDatos
             }
         }catch(Exception ex){
             System.out.println(ex);
+        }
+    }
+    
+    public int checkSucursal(String ip){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Sucursal WHERE ip='" + ip +"' LIMIT 1;";
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            return -2;
         }
     }
         

@@ -69,7 +69,9 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Cliente cliente = new Cliente();
-        cliente.crearConexion();
+        Thread c = new Thread(cliente);
+        c.start();
+        this.iniciarServidor();
         
         BaseDeDatos bdatos = BaseDeDatos.crearInstancia();
         ArrayList<Transaccion> bdtrans = bdatos.getTransaccionesArray();
