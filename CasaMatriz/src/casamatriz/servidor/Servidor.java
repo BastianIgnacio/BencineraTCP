@@ -49,11 +49,6 @@ public class Servidor implements Runnable {
     public void checkSucursales(){
         for (Worker suc : this.sucursales) {
             suc.check();
-            if(suc.isConnected()){
-                System.out.println("Sucursal " + suc.getAddress() + " en linea.");
-            }else{
-                System.out.println("Sucursal " + suc.getAddress() + " sin conexion.");
-            }
         }
     }
     

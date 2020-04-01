@@ -34,7 +34,7 @@ public class Worker extends Thread {
     String address;
     final Socket s; 
     String nombre;
-    boolean conectado;
+    String estado;
 
     
   
@@ -45,7 +45,12 @@ public class Worker extends Thread {
     } 
     
     public boolean isConnected(){
-        return !this.s.isClosed();
+        boolean conectado = !this.s.isClosed();
+        if(conectado)
+            this.estado = "Conectado";
+        else
+            this.estado = "Desconectado";
+        return conectado;
     }
     
     public String getAddress(){
@@ -59,14 +64,11 @@ public class Worker extends Thread {
             System.out.println("ERROR: No se puede cerrar la sucursal.");
         }
     }
-    
-    public boolean isConectado() {
-        return conectado;
-    }
 
-    public void setConectado(boolean conectado) {
-        this.conectado = conectado;
+    public String getEstado() {
+        return estado;
     }
+    
     
     public void enviar(){
         ObjectOutputStream out = null;
@@ -80,20 +82,10 @@ public class Worker extends Thread {
     }
     
     public void check(){
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(s.getOutputStream());
-            out.writeObject("OK");
-            out.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        if(isConnected())
+            System.out.println("Sucursal conectada");
+        else
+            System.out.println("Sucursal desconectada");
     }
     
     public String getNombre() {

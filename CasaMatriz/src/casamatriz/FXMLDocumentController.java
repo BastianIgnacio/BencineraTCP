@@ -76,7 +76,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Worker, String>  tcSucursalDireccionIp;
     @FXML
-    private TableColumn<Worker, Boolean> tcSucursalEstado;
+    private TableColumn<Worker, String> tcSucursalEstado;
     @FXML
     private TableView<?> tvModificaciones;
     @FXML
@@ -92,20 +92,19 @@ public class FXMLDocumentController implements Initializable {
     Thread hiloServer;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL location, ResourceBundle resources) {
         servidor = new Servidor(this);
         hiloServer = new Thread(servidor);
         hiloServer.start();
         
         iniciarTablesView();
-        
-    }    
+    }
 
     private void iniciarTablesView()
     {
          this.tcSucurcalNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
          this.tcSucursalDireccionIp.setCellValueFactory(new PropertyValueFactory<>("address"));
-         this.tcModificacionTipo.setCellValueFactory(new PropertyValueFactory<>("estado"));
+         this.tcSucursalEstado.setCellValueFactory(new PropertyValueFactory<>("conectado"));
     
     }
     
@@ -244,4 +243,6 @@ public class FXMLDocumentController implements Initializable {
         ObservableList<Worker> data = FXCollections.observableArrayList(array);
         this.tvSucursales.setItems(data);
     }
+
+
 }
