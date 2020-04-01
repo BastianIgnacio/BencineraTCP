@@ -37,11 +37,13 @@ public class Worker extends Thread {
     String nombre = "Sucursal sin nombre";
     String estado;
     Servidor server;
+    BaseDatos bd;
     // Constructor 
     public Worker(Socket s, Servidor server) { 
         this.s = s; 
         this.server = server;
         this.address = s.getInetAddress().getHostAddress();
+        this.bd = BaseDatos.crearInstancia();
     } 
     
     public boolean isConnected(){
@@ -112,6 +114,9 @@ public class Worker extends Thread {
                                 System.out.println("Nombre de la sucursal: " + nombre[1]);
                                 this.nombre = nombre[1];
                                 this.server.updateSucursales();
+                                this.bd.insertSucursal(nombre[1], address);
+                            }else if(cmd.contains("actualizar_precios")){
+                                enviar();
                             }else{
                                 System.out.println("Mensaje: " + (String)obj);
                             }

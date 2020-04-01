@@ -5,6 +5,7 @@
  */
 package casamatriz.servidor;
 
+import casamatriz.SharedInfo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,8 +13,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sucursal.Informacion;
 
 /**
  *
@@ -44,7 +50,7 @@ public class BaseDatos
         if (bd == null){
             bd = new BaseDatos();
         }else{
-            System.out.println("ERROR: No se puede crear el objeto porque ya existe un objeto de la clase BaseDeDatos");
+            System.out.println("ERROR: No se puede crear el objeto porque ya existe un objeto de la clase BaseDeDatos, se obtendra esta instancia.");
         }
         
         return bd;
@@ -105,5 +111,161 @@ public class BaseDatos
         }catch(Exception ex){
             System.out.println(ex);
         }
+    }
+    
+    private int getIdSucursal(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Sucursal ORDER BY id DESC LIMIT 1";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            return (rs.getInt(1))+1;
+        }catch(Exception ex){
+            System.out.println(ex);
+            return 1;
+        }
+    }
+    
+    private int checkSucursal(String ip){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Sucursal WHERE ip='" + ip +"' LIMIT 1;";
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt(1);
+            } else {
+                return -1;
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+            return -2;
+        }
+    }
+    
+    
+    public void insertSucursal(String nombre, String ip){
+        Statement stmt = null;
+        PreparedStatement ps = null;
+        try {
+            if(checkSucursal(ip)==-1){
+                String str = "INSERT INTO Sucursal VALUES(?,?,?)";
+                ps = con.prepareStatement(str);
+                ps.setInt(1, getIdSucursal());
+                ps.setString(2, nombre);
+                ps.setString(3, ip);
+                if(ps.execute()){
+                    System.out.println("INFO: Sucursal creada exitosamente.");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    public int checkPrecios(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            DateFormat fecha = new SimpleDateFormat("dd/MM/yyyy"); 
+                Date date = new Date();
+            String sql = "SELECT id FROM Precios WHERE fecha='" + fecha.format(date)+"' LIMIT 1;";
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            else {
+                return -1;
+            }
+        }catch(Exception ex){
+            System.out.println("ERROR: No se pudo obtener el ultimo precio almacenado.");
+            return -2;
+        }
+             
+    }
+    
+    private int getIdPrecios(){
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT id FROM Precios ORDER BY id DESC LIMIT 1";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt(1)+1;
+                
+            }
+            else {
+                return 0;
+            }
+        }catch(Exception ex){
+            System.out.println("ERROR: No se pudo obtener el identificar correspondiente al siguiente precio.");
+            return -1;
+        }
+    }
+    
+    public void actualizarPrecios(Informacion info){
+        Statement stmt = null;
+        PreparedStatement ps = null;
+        try {
+            int id = checkPrecios();
+            if(id == -1){
+                System.out.println("INFO: Se ingresaron los precios en la base de datos.");
+                int idprecios = getIdPrecios();
+                String str = "INSERT INTO Precios VALUES(?,?,?,?,?,?,?)";
+                ps = con.prepareStatement(str);
+                
+                ps.setInt(1, idprecios);
+                ps.setLong(2, (long)(info.getBencina93())); // 93
+                ps.setLong(3, (long)(info.getBencina95())); // 95
+                ps.setLong(4, (long)(info.getBencina97())); // 97
+                ps.setLong(5, (long)(info.getDiesel())); // diesel
+                ps.setLong(6, (long)(info.getKerosene())); // kerosene
+                DateFormat fecha = new SimpleDateFormat("dd/MM/yyyy"); 
+                Date date = new Date();
+                ps.setString(7, fecha.format(date) );
+                if(ps.execute()){
+                    System.out.println("INFO: Precios insertados exitosamente.");
+                }
+            }else{
+                System.out.println("INFO: Se modificaron los precios en la base de datos.");
+                Date date = new Date(new java.util.Date().getTime());
+                String str = "UPDATE Precios SET precio93=?, precio95=?, precio97=?, precioDiesel=?, precioKerosene=? WHERE id=" + id;
+                ps = con.prepareStatement(str);
+                ps.setLong(1, (long)(info.getBencina93())); // 93
+                ps.setLong(2, (long)(info.getBencina95())); // 95
+                ps.setLong(3, (long)(info.getBencina97())); // 97
+                ps.setLong(4, (long)(info.getDiesel())); // diesel
+                ps.setLong(5, (long)(info.getKerosene())); // kerosene
+                if(ps.execute()){
+                    System.out.println("INFO: Precios actualizados exitosamente.");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println(ex);
+        }
+    }
+    
+    public ArrayList<Informacion> getPrecios(){
+        Statement stmt = null;
+        ArrayList<Informacion> infos = new ArrayList<Informacion>();
+        try {
+            stmt = this.con.createStatement();
+            Date date = new Date(new java.util.Date().getTime());
+            String sql = "SELECT * FROM Precios;";
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                Informacion info = new Informacion((int)rs.getLong(2),(int)rs.getLong(3),(int)rs.getLong(4),(int)rs.getLong(5),(int)rs.getLong(6));
+                info.setFecha(rs.getString(7));
+                SharedInfo.info = info;
+                infos.add(info);
+                //System.out.println(rs.getLong(2) + " - " + rs.getLong(3) + " - " + rs.getLong(4) + " - " + rs.getLong(5) + " - " + rs.getLong(6) + " - " + rs.getString(7));
+            }
+        }catch(Exception ex){
+            System.out.println("ERROR: No se pudo obtener los precios.");
+        }
+        return infos;
     }
 }
