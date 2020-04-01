@@ -1,5 +1,6 @@
 package casamatriz.servidor;
 
+import casamatriz.FXMLDocumentController;
 import casamatriz.SharedInfo;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,12 +36,11 @@ public class Worker extends Thread {
     final Socket s; 
     String nombre;
     String estado;
-
-    
-  
+    Servidor server;
     // Constructor 
-    public Worker(Socket s) { 
+    public Worker(Socket s, Servidor server) { 
         this.s = s; 
+        this.server = server;
         this.address = s.getInetAddress().getHostAddress();
     } 
     
@@ -81,13 +81,6 @@ public class Worker extends Thread {
         }
     }
     
-    public void check(){
-        if(isConnected())
-            System.out.println("Sucursal conectada");
-        else
-            System.out.println("Sucursal desconectada");
-    }
-    
     public String getNombre() {
         return nombre;
     }
@@ -95,8 +88,6 @@ public class Worker extends Thread {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
   
     @Override
     public void run() {
@@ -105,6 +96,7 @@ public class Worker extends Thread {
         if(this.s.isConnected()){
             System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Sucursal conectada.");
         }
+        this.estado = "Conectado";
         while(true){
             try{
                 if(!this.s.isClosed()){
@@ -127,6 +119,8 @@ public class Worker extends Thread {
             }catch(SocketException ex){
                 try{
                     this.s.close();
+                    this.estado = "Desconectado";
+                    this.server.updateSucursales();
                 }catch(Exception ex2){
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
@@ -134,6 +128,8 @@ public class Worker extends Thread {
             }catch(EOFException eofex){ 
                 try{
                     this.s.close();
+                    this.estado = "Desconectado";
+                    this.server.updateSucursales();
                 }catch(Exception ex2){
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }

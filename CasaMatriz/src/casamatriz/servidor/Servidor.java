@@ -46,10 +46,8 @@ public class Servidor implements Runnable {
         }
     }
     
-    public void checkSucursales(){
-        for (Worker suc : this.sucursales) {
-            suc.check();
-        }
+    public void updateSucursales(){
+        this.controller.updateSucursales(sucursales);
     }
     
     /**
@@ -76,7 +74,7 @@ public class Servidor implements Runnable {
             while(true){
                 System.out.println("Esperando..");
                 sc = servidor.accept();
-                Worker w = new Worker(sc);
+                Worker w = new Worker(sc, this);
                 
                 this.checkSucursal(w);
                 this.sucursales.add(w);

@@ -104,7 +104,7 @@ public class FXMLDocumentController implements Initializable {
     {
          this.tcSucurcalNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
          this.tcSucursalDireccionIp.setCellValueFactory(new PropertyValueFactory<>("address"));
-         this.tcSucursalEstado.setCellValueFactory(new PropertyValueFactory<>("conectado"));
+         this.tcSucursalEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
     
     }
     
@@ -243,6 +243,5 @@ public class FXMLDocumentController implements Initializable {
         ObservableList<Worker> data = FXCollections.observableArrayList(array);
         this.tvSucursales.setItems(data);
     }
-
 
 }
