@@ -14,6 +14,7 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.function.UnaryOperator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -27,7 +28,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.converter.IntegerStringConverter;
 import sucursal.Transaccion;
 
 /**
@@ -180,31 +184,39 @@ public class FXMLDocumentController implements Initializable {
         this.tc_uc_litros.setCellValueFactory(new PropertyValueFactory<>("litros"));
         this.tc_uc_precio_litro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
         this.tc_uc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
-        
-        
+       
         this.tc_cc_fecha.setCellValueFactory(new PropertyValueFactory<>("time"));
         this.tc_cc_tipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
         this.tc_cc_litros.setCellValueFactory(new PropertyValueFactory<>("litros"));
         this.tc_cc_precio_litro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
         this.tc_cc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
         
-        ArrayList<Transaccion> trans = new ArrayList();
         
+        
+        
+        
+        ArrayList<Transaccion> trans = new ArrayList();
         Timestamp time = new Timestamp(new java.util.Date().getTime());
         Transaccion t = new Transaccion(time,"97",2,24,444,2);
-        
         trans.add(t);
-        
-        
         time = new Timestamp(new java.util.Date().getTime());
         t = new Transaccion(time,"95",2,24,444,2);
-        
         trans.add(t);
         
         this.updateUltimasTransacciones(trans);
         this.updatseCargasEnCola(trans);
         
-        
+       
+       // Filto para que en texfield solo acepte numeros  
+       UnaryOperator<Change> integerFilter = change -> {
+       String newText = change.getControlNewText();
+       if (newText.matches("-?([1-9][0-9]*)?")) { 
+           return change;
+       }
+       return null;
+       };
+
+       this.textFieldLitros.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
     }    
     
     

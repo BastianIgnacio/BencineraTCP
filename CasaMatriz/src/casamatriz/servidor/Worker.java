@@ -33,7 +33,10 @@ public class Worker extends Thread {
     DateFormat fortime = new SimpleDateFormat("hh:mm:ss"); 
     String address;
     final Socket s; 
-      
+    String nombre;
+    boolean conectado;
+
+    
   
     // Constructor 
     public Worker(Socket s) { 
@@ -55,6 +58,14 @@ public class Worker extends Thread {
         } catch (IOException ex) {
             System.out.println("ERROR: No se puede cerrar la sucursal.");
         }
+    }
+    
+    public boolean isConectado() {
+        return conectado;
+    }
+
+    public void setConectado(boolean conectado) {
+        this.conectado = conectado;
     }
     
     public void enviar(){
@@ -84,6 +95,16 @@ public class Worker extends Thread {
             }
         }
     }
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
   
     @Override
     public void run() {
