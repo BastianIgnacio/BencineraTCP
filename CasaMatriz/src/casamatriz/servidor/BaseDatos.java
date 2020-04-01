@@ -145,7 +145,7 @@ public class BaseDatos
                 return -1;
             }
         }catch(Exception ex){
-            System.out.println(ex);
+            System.out.println("ERROR: Problema al intentar verificar la existencia de la sucursal.");
             return -2;
         }
     }
@@ -166,7 +166,7 @@ public class BaseDatos
                 }
             }
         }catch(Exception ex){
-            System.out.println(ex);
+            System.out.println("ERROR: Problema al intentar agregar la sucursal.");
         }
     }
     
