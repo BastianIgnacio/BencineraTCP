@@ -5,6 +5,7 @@
  */
 package casamatriz.servidor;
 
+import casamatriz.FXMLDocumentController;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,9 +21,10 @@ public class Servidor implements Runnable {
 
     ArrayList<Worker> sucursales;
     ServerSocket servidor = null;
-    
-    public Servidor(){
+    FXMLDocumentController controller;
+    public Servidor(FXMLDocumentController controller){
         this.sucursales = new ArrayList<>();
+        this.controller = controller;
     }
 
     public ArrayList<Worker> getSucursales() {
@@ -35,6 +37,9 @@ public class Servidor implements Runnable {
 
     public void cerrar(){
         try {
+            for (Worker suc : this.sucursales) {
+                suc.cerrar();
+            }
             this.servidor.close();
         } catch (IOException ex) {
             System.out.println("ERROR: No se puede cerrar el servidor.");
@@ -80,6 +85,7 @@ public class Servidor implements Runnable {
                 
                 this.checkSucursal(w);
                 this.sucursales.add(w);
+                this.controller.updateSucursales(sucursales);
                 new Thread(w).start();
                 
             }

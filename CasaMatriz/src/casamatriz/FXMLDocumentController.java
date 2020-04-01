@@ -14,10 +14,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -47,8 +50,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button modificar_diesel;
     
-    
-    
     // Parte logica
     
     private int precio_93;
@@ -63,13 +64,13 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private BorderPane panelCentro;
     @FXML
-    private TableView<?> tvSucursales;
+    private TableView<Worker> tvSucursales;
     @FXML
-    private TableColumn<?, ?> tcSucurcalNombre;
+    private TableColumn<Worker, String> tcSucurcalNombre;
     @FXML
-    private TableColumn<?, ?> tcSucursalDireccionIp;
+    private TableColumn<Worker, String>  tcSucursalDireccionIp;
     @FXML
-    private TableColumn<?, ?> tcSucursalEstado;
+    private TableColumn<Worker, Boolean> tcSucursalEstado;
     @FXML
     private TableView<?> tvModificaciones;
     @FXML
@@ -84,7 +85,7 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        servidor = new Servidor();
+        servidor = new Servidor(this);
         hiloServer = new Thread(servidor);
         hiloServer.start();
     }    
@@ -100,7 +101,6 @@ public class FXMLDocumentController implements Initializable {
         if(event.getSource()==this.establecer_cliente)
         {
             
-        
         }
         if(event.getSource()==this.preciosActuales){
             System.out.println(SharedInfo.info);
@@ -203,5 +203,12 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
+    }
+    
+    public void updateSucursales(ArrayList<Worker> array)
+    {
+        this.tvSucursales.getItems().clear();
+        ObservableList<Worker> data = FXCollections.observableArrayList(array);
+        this.tvSucursales.setItems(data);
     }
 }

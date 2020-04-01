@@ -61,8 +61,10 @@ public class Cliente implements Runnable{
                 }
             sc.close();
             System.out.println("Cliente cerrado");
-        } catch (Exception ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            
+        } catch (ClassNotFoundException ex) {
+            
         }
     }
     

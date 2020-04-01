@@ -7,6 +7,7 @@ package casamatriz;
 
 import casamatriz.servidor.Servidor;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -34,6 +35,7 @@ public class CasaMatriz extends Application {
           public void handle(WindowEvent we) {
               System.out.println("INFO: Cerrando servidor sockets.");
               ctrl.cerrarServidor();
+              System.exit(0);
           }
       });   
         stage.show();

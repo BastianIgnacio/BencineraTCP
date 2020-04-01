@@ -49,6 +49,14 @@ public class Worker extends Thread {
         return this.address;
     }
     
+    public void cerrar(){
+        try {
+            this.s.close();
+        } catch (IOException ex) {
+            System.out.println("ERROR: No se puede cerrar la sucursal.");
+        }
+    }
+    
     public void enviar(){
         ObjectOutputStream out = null;
         try {
