@@ -41,7 +41,7 @@ import sucursal.Transaccion;
  */
 public class FXMLDocumentController implements Initializable {
     
-    private int ID_SURTIDOR = 2;
+    
     
     private TextField field93;
     private TextField field95;
@@ -166,7 +166,7 @@ public class FXMLDocumentController implements Initializable {
         }
         int total=litros*precioPorLitro;
 
-        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, ID_SURTIDOR);
+        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, SharedInfo.idSurtidor);
         return t;
     }
     
@@ -203,10 +203,10 @@ public class FXMLDocumentController implements Initializable {
         
         ArrayList<Transaccion> trans = new ArrayList();
         Timestamp time = new Timestamp(new java.util.Date().getTime());
-        Transaccion t = new Transaccion(time,"97",2,24,444,2);
+        Transaccion t = new Transaccion(time,"97",2,24,444, SharedInfo.idSurtidor);
         trans.add(t);
         time = new Timestamp(new java.util.Date().getTime());
-        t = new Transaccion(time,"95",2,24,444,2);
+        t = new Transaccion(time,"95",2,24,444, SharedInfo.idSurtidor);
         trans.add(t);
         
         this.updateUltimasTransacciones(trans);

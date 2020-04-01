@@ -41,7 +41,7 @@ public class Worker extends Thread {
     BaseDeDatos bd;
     FXMLDocumentController controlador;
     int id = 0;
-    
+    String idSurtidor;
     
 
     // Constructor 
@@ -109,6 +109,14 @@ public class Worker extends Thread {
                     if (obj instanceof String) {
                         String str = (String) obj;
                         System.out.println("Mensaje: " + (String) obj);
+                        
+                         if(str.contains("ID:")){
+                                String[] nombre = str.split(":");
+                                System.out.println("id del surtidor: " + nombre[1]);
+                                this.idSurtidor = nombre[1];
+                               
+                         }
+                         
                         switch (str) {
                             case "actualizar_precios":
                                 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
@@ -156,7 +164,7 @@ public class Worker extends Thread {
                 
                 if (InfoSurtidor.caida == false){
                     InfoSurtidor.comienzo = new Timestamp(new java.util.Date().getTime());
-                    InfoSurtidor.refSurtidor =  getAddress();
+                    InfoSurtidor.refSurtidor =  this.idSurtidor;
                     InfoSurtidor.caida = true;
                 }
                 

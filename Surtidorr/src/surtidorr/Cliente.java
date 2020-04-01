@@ -64,8 +64,13 @@ public class Cliente implements Runnable {
         try {
             // getting localhost ip 
             // establish the connection with server port 5056 
-            s = new Socket(SharedInfo.ipSucursal, 6000);
+            s = new Socket("25.64.202.245", 6000);
             this.isConnected(true);
+            
+            dos = new ObjectOutputStream(s.getOutputStream());
+            System.out.println("enviar id surtidor");
+            dos.writeObject("ID:"+SharedInfo.idSurtidor);
+            dos.flush();
             
             System.out.println("INFO: Conectado a sucursal");
             

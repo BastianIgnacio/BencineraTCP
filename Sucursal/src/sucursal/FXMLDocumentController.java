@@ -63,14 +63,14 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Transaccion,Integer> tctotal;
     @FXML
-    private TableColumn<Transaccion,Integer> tcsurtidor;
+    private TableColumn<Transaccion,String> tcsurtidor;
    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Cliente cliente = new Cliente();
         Thread c = new Thread(cliente);
-        c.start();
+        //c.start();
         this.iniciarServidor();
         
         BaseDeDatos bdatos = BaseDeDatos.crearInstancia();
@@ -134,19 +134,7 @@ public class FXMLDocumentController implements Initializable {
         a.start();
     }
     
-    private Transaccion crear()
-    {
-        Timestamp time = null;
-        String idTransaccion = "11";
-        String tipoCombustible = "diesel";
-        int litros = 15;
-        int precioPorLitro= 500;
-        int total=15000;
-        
-        Transaccion t = new Transaccion(time,tipoCombustible,litros,precioPorLitro,total, 1);
-        return t;
-    }
-    
+  
     
     public void updateTransacciones(ArrayList<Transaccion> transacciones)
     {

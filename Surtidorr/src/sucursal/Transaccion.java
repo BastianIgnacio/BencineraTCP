@@ -20,9 +20,9 @@ public class Transaccion implements Serializable{
     private int litros;
     private int precioPorLitro;
     private int total;
-    private int refSurtidor;
+    private String refSurtidor;
     
-    public Transaccion(Timestamp time, String tipoCombustible, int litros, int precioPorLitro, int total, int refSurtidor) {
+    public Transaccion(Timestamp time, String tipoCombustible, int litros, int precioPorLitro, int total, String refSurtidor) {
         this.time = time;
         this.tipoCombustible = tipoCombustible;
         this.litros = litros;
@@ -75,11 +75,11 @@ public class Transaccion implements Serializable{
         this.total = total;
     }
 
-    public int getRefSurtidor() {
+    public String getRefSurtidor() {
         return refSurtidor;
     }
 
-    public void setRefSurtidor(int refSurtidor) {
+    public void setRefSurtidor(String refSurtidor) {
         this.refSurtidor = refSurtidor;
     }
 
