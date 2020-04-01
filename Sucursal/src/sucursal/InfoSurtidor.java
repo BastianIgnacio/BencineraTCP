@@ -23,4 +23,7 @@ public class InfoSurtidor {
     public static Informacion info;
     public static int margen;
     public static int intentoConexion = 1;
+    public static String nombreSucursal = "";
+    public static String ipPrimaria = "";
+    public static String ipSecundaria = "";
 }
