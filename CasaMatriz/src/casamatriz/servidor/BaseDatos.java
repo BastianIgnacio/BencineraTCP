@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sucursal.Informacion;
-import sucursal.Reporte;
-import sucursal.Sucursal;
+import casamatriz.modelos.Informacion;
+import casamatriz.modelos.Reporte;
+import casamatriz.modelos.Sucursal;
 
 /**
  *
