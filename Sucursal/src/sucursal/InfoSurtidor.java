@@ -22,4 +22,5 @@ public class InfoSurtidor {
     public static int cargasKerosene=0;
     public static Informacion info;
     public static int margen;
+    public static int intentoConexion = 1;
 }

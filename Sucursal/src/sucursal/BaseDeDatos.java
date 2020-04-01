@@ -67,7 +67,7 @@ public class BaseDeDatos {
         }
         return false;
     }
-
+/*
     public void insertSurtidor(long precio93, long precio95, long precio97, long precioDiesel, long precioKerosene) {
         Statement stmt = null;
         PreparedStatement ps = null;
@@ -102,7 +102,7 @@ public class BaseDeDatos {
             System.out.println(ex);
         }
     }
-
+*/
     private int getIdSurtidor() {
         Statement stmt = null;
         try {
@@ -162,7 +162,6 @@ public class BaseDeDatos {
 
                 Transaccion tran = new Transaccion(rs.getTimestamp(2), rs.getString(3), (int) rs.getLong(4), (int) rs.getLong(5), (int) rs.getLong(6), (int) rs.getLong(7));
                 trans.add(tran);
-                System.out.println(tran);
 
             }
         } catch (Exception ex) {
@@ -210,7 +209,7 @@ public class BaseDeDatos {
             System.out.println(ex);
         }
     }
-
+/*
     public void actualizarPrecios(Informacion info) {
         Statement stmt = null;
         PreparedStatement ps = null;
@@ -254,7 +253,7 @@ public class BaseDeDatos {
             System.out.println(ex);
         }
     }
-
+*/
     private int getIdPrecios() {
         Statement stmt = null;
         try {

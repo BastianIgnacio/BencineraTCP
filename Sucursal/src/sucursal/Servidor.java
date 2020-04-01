@@ -63,7 +63,7 @@ public class Servidor implements Runnable {
     public void run() {
         ServerSocket servidor = null;
         Socket sc = null;
-        final int PUERTO = 5000;
+        final int PUERTO = 6000;
         
         try {
             servidor = new ServerSocket(PUERTO);

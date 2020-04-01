@@ -8,10 +8,12 @@ package sucursal;
 import java.io.File;
 import java.nio.file.Files;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -27,10 +29,13 @@ public class Sucursal extends Application {
         //bd.crearTabla();
         InfoSurtidor.margen = 0;
         bd.getPrecios();
-        bd.getSurtidores();
-        bd.getTransacciones();
         Scene scene = new Scene(root);
-        
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          public void handle(WindowEvent we) {
+              System.out.println("INFO: Cerrando servidor sockets.");
+              System.exit(0);
+          }
+      });
         stage.setScene(scene);
         stage.show();
     }
