@@ -86,6 +86,7 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Falla, Timestamp> tc_freconexion;
     @FXML
     private TableColumn<Falla, Long> tc_tcaida;
+    ArrayList<Transaccion> trans = new ArrayList();
     
     
     
@@ -97,6 +98,7 @@ public class FXMLDocumentController implements Initializable {
             System.out.println(this.comboBoxTipo.getValue());
             Transaccion t = this.crear(this.comboBoxTipo.getValue(),parseInt(textFieldLitros.getText()));
             cliente.enviarTransaccion(t);
+            this.insertarTransaccionTabla(t);
         }
         if(event.getSource()==this.boton93)
         {
@@ -197,15 +199,8 @@ public class FXMLDocumentController implements Initializable {
         
         
         
-        ArrayList<Transaccion> trans = new ArrayList();
-        Timestamp time = new Timestamp(new java.util.Date().getTime());
-        Transaccion t = new Transaccion(time,"97",2,24,444, SharedInfo.idSurtidor);
-        trans.add(t);
-        time = new Timestamp(new java.util.Date().getTime());
-        t = new Transaccion(time,"95",2,24,444, SharedInfo.idSurtidor);
-        trans.add(t);
         
-        this.updateUltimasTransacciones(trans);
+      
         
        
        // Filto para que en texfield solo acepte numeros  
@@ -220,6 +215,11 @@ public class FXMLDocumentController implements Initializable {
        this.textFieldLitros.setTextFormatter(new TextFormatter<Integer>(new IntegerStringConverter(), 0, integerFilter));
     }    
     
+    public void insertarTransaccionTabla(Transaccion t){
+         trans.add(t);
+        this.updateUltimasTransacciones(trans);
+       
+    }
     
     public void updateUltimasTransacciones(ArrayList<Transaccion> transacciones)
     {
