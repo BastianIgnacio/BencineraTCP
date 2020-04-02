@@ -1,6 +1,8 @@
 package surtidorr;
 
 
+import java.util.ArrayList;
+import sucursal.Falla;
 import sucursal.Informacion;
 
 /*
@@ -18,4 +20,5 @@ public class SharedInfo {
     /* IP DE LA SUCURSAL */
     public static String idSurtidor = "";
     public static String ipSucursal = "127.0.0.1";
+    public static ArrayList<Falla> fallas = new ArrayList<>();
 }
