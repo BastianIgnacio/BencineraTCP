@@ -155,11 +155,11 @@ public class Cliente implements Runnable {
        this.controlador.comprobarConexion(conectado);
     }
     
-    public void enviarTransaccion(Transaccion t) throws IOException{
+    public void enviarTransaccion(Transaccion t){
         try {
             if(!this.s.isClosed()){
-               dos = new ObjectOutputStream(s.getOutputStream());
                System.out.println("enviar");
+               dos = new ObjectOutputStream(s.getOutputStream());
                dos.writeObject(t);
                dos.flush();
             }

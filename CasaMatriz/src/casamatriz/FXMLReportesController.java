@@ -76,6 +76,8 @@ public class FXMLReportesController implements Initializable {
             Sucursal suc = sucursalesBox.getSelectionModel().getSelectedItem();
             if(suc!=null){
                 ArrayList<Reporte> reportes = this.bd.getReporteSucursal((int)suc.getId());
+                System.out.println(suc.getId());
+                System.out.println(reportes);
                 WebEngine engine = webView.getEngine();
                 String html = "<h3 style=\"text-align:center\">Reporte de sucursal</h3>\n" +
                                 "<h4 style=\"font-weight: normal;text-align:center\">" + suc.getNombre() + "</h4>\n"+
@@ -89,14 +91,11 @@ public class FXMLReportesController implements Initializable {
                                 "    </tr>\n" +
                                 "  </thead>\n" +
                                 "  <tbody>\n"; 
-                if(reportes.size()==0){
-                    html += "<tr><td colspan=\"4\">Esta sucursal no tiene transacciones</td></tr>";
-                }else{
                     for (Reporte reporte : reportes) {
                         html += "<tr><td>"+reporte.getTipoCombustbiel()+"</td><td>"+reporte.getCargas()+"</td><td>"+reporte.getLitros()+"</td><td>"+reporte.getVentas()+"</td>";
                         ventas +=reporte.getVentas();
                     }
-                }
+                
                 html += "</tbody>\n" +
                 "</table>\n" +
                 "<h4 style=\"text-align:right\"><b>Total de ventas:</b> <span style=\"font-weight: normal\">"+ventas+"</span></h4>";

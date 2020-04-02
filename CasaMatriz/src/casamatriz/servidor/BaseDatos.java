@@ -216,7 +216,7 @@ public class BaseDatos
         ArrayList<Reporte> reportes = new ArrayList<Reporte>();
         try {
             stmt = this.con.createStatement();
-            String sql = "SELECT tipoCombustible, COUNT(id) as cargas, SUM(litros) as total_lts, SUM(total) as total_venta FROM Transaccion WHERE ref_sucursal=" + id +" AND DATE(fecha) = DATE(NOW()) GROUP BY tipoCombustible;";
+            String sql = "SELECT tipoCombustible, COUNT(id) as cargas, SUM(litros) as total_lts, SUM(total) as total_venta FROM Transaccion WHERE ref_sucursal=" + id +" GROUP BY tipoCombustible;";
             
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){

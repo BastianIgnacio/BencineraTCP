@@ -58,9 +58,7 @@ public class Surtidorr extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         Scene scene = new Scene(root);
         // Se inicia hilo con comando de actualizacion de precios.
-       
-        
-       
+
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
           public void handle(WindowEvent we) {
               System.out.println("INFO: Cerrando servidor sockets.");
