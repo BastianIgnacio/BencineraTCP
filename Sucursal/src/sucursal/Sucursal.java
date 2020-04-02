@@ -25,8 +25,7 @@ public class Sucursal extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-         try{
+        try{
             InputStream input = new FileInputStream("config.properties");
             Properties prop = new Properties();
             prop.load(input);
@@ -39,6 +38,7 @@ public class Sucursal extends Application {
              System.out.println("ERROR: No se puede abrir el archivo de configuracion.");
              System.exit(0);
         }
+        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         BaseDeDatos bd = BaseDeDatos.crearInstancia();
         //bd.crearTabla();
         InfoSurtidor.margen = 0;

@@ -23,8 +23,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.util.StringConverter;
-import casamatriz.modelos.Reporte;
-import casamatriz.modelos.Sucursal;
+import sucursal.Reporte;
+import sucursal.Sucursal;
 
 /**
  * FXML Controller class

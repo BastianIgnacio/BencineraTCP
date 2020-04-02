@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import casamatriz.modelos.Informacion;
+import sucursal.Informacion;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -112,7 +112,6 @@ public class Worker extends Thread {
                             String cmd = (String)obj;
                             if(cmd.contains("Nombre:")){
                                 String[] nombre = cmd.split(":");
-                                System.out.println("Nombre de la sucursal: " + nombre[1]);
                                 this.nombre = nombre[1];
                                 this.server.updateSucursales();
                                 this.bd.insertSucursal(nombre[1], address);
