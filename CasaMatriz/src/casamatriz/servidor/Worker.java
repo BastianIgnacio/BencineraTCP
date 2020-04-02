@@ -78,6 +78,7 @@ public class Worker extends Thread {
             out = new ObjectOutputStream(s.getOutputStream());
             out.writeObject(SharedInfo.info);
             out.flush();
+            System.out.println("INFO: Actualizacion de precios");
         } catch (IOException ex) {
             System.out.println("ERROR: No se pudo enviar los precios actualizados.");
         }

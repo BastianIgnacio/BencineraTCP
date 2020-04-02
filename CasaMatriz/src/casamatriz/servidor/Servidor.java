@@ -47,7 +47,9 @@ public class Servidor implements Runnable {
     }
     
     public void updateSucursales(){
-        this.controller.updateSucursales(sucursales);
+        try{
+            this.controller.updateSucursales(sucursales);
+        }catch(Exception ex){}
     }
     
     /**
