@@ -67,15 +67,16 @@
             </Pane>
             <Pane prefHeight="300.0" prefWidth="984.0" style="-fx-border-color: B5B5B5; -fx-border-radius: 5; -fx-border-width: 2;">
                <children>
-                  <Label layoutX="32.0" layoutY="7.0" text="Cargas en cola" />
-                  <TableView fx:id="tbCargasEnCola" layoutX="28.0" layoutY="27.0" prefHeight="251.0" prefWidth="918.0" style="-fx-border-radius: 5;">
+                  <Label layoutX="32.0" layoutY="7.0" text="Fallas en el surtidor" />
+                  <TableView fx:id="tbFallas" layoutX="28.0" layoutY="27.0" prefHeight="251.0" prefWidth="918.0" style="-fx-border-radius: 5;">
                      <columns>
-                        <TableColumn fx:id="tc_cc_fecha" prefWidth="364.0" text="Fecha" />
-                        <TableColumn fx:id="tc_cc_tipo" prefWidth="118.0" text="Tipo" />
-                        <TableColumn fx:id="tc_cc_litros" prefWidth="122.0" text="Litros" />
-                        <TableColumn fx:id="tc_cc_precio_litro" prefWidth="146.0" text="Precio/Litro" />
-                        <TableColumn fx:id="tc_cc_total" prefWidth="100.0" text="Total" />
+                        <TableColumn fx:id="tc_fcaida" prefWidth="195.0" text="Fecha caida" />
+                        <TableColumn fx:id="tc_freconexion" prefWidth="178.0" text="Fecha reconexion" />
+                        <TableColumn fx:id="tc_tcaida" prefWidth="231.0" text="Tiempo caida" />
                      </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                </children>
             </Pane>

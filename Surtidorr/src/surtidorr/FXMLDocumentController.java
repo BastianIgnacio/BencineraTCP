@@ -32,6 +32,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.converter.IntegerStringConverter;
+import sucursal.Falla;
 import sucursal.Informacion;
 import sucursal.Transaccion;
 
@@ -73,21 +74,18 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Transaccion, Integer> tc_uc_precio_litro;
     @FXML
     private TableColumn<Transaccion, Integer> tc_uc_total;
-    @FXML
-    private TableView<Transaccion> tbCargasEnCola;
-    @FXML
-    private TableColumn<Transaccion, Timestamp> tc_cc_fecha;
-    @FXML
-    private TableColumn<Transaccion, String>  tc_cc_tipo;
-    @FXML
-    private TableColumn<Transaccion, Integer> tc_cc_litros;
-    @FXML
-    private TableColumn<Transaccion, Integer>  tc_cc_precio_litro;
-    @FXML
-    private TableColumn<Transaccion, Integer> tc_cc_total;
+    
     private Cliente cliente;
     @FXML
     private Label titulo;
+    @FXML
+    private TableView<Falla> tbFallas;
+    @FXML
+    private TableColumn<Falla, Timestamp> tc_fcaida;
+    @FXML
+    private TableColumn<Falla, Timestamp> tc_freconexion;
+    @FXML
+    private TableColumn<Falla, Long> tc_tcaida;
     
     
     
@@ -191,11 +189,9 @@ public class FXMLDocumentController implements Initializable {
         this.tc_uc_precio_litro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
         this.tc_uc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
        
-        this.tc_cc_fecha.setCellValueFactory(new PropertyValueFactory<>("time"));
-        this.tc_cc_tipo.setCellValueFactory(new PropertyValueFactory<>("tipoCombustible"));
-        this.tc_cc_litros.setCellValueFactory(new PropertyValueFactory<>("litros"));
-        this.tc_cc_precio_litro.setCellValueFactory(new PropertyValueFactory<>("precioPorLitro"));
-        this.tc_cc_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        this.tc_fcaida.setCellValueFactory(new PropertyValueFactory<>("caida"));
+        this.tc_freconexion.setCellValueFactory(new PropertyValueFactory<>("reconexion"));
+        this.tc_tcaida.setCellValueFactory(new PropertyValueFactory<>("tiempo_caido"));
         
         
         
@@ -210,7 +206,6 @@ public class FXMLDocumentController implements Initializable {
         trans.add(t);
         
         this.updateUltimasTransacciones(trans);
-        this.updatseCargasEnCola(trans);
         
        
        // Filto para que en texfield solo acepte numeros  
@@ -233,12 +228,12 @@ public class FXMLDocumentController implements Initializable {
         this.tbUltimasCargas.setItems(data);
     }
     
-    public void updatseCargasEnCola(ArrayList<Transaccion> transacciones)
+    public void updateFallas(ArrayList<Falla> fallas)
     {
-        this.tbCargasEnCola.getItems().clear();
-        
-        ObservableList<Transaccion> data = FXCollections.observableArrayList(transacciones);
-        this.tbCargasEnCola.setItems(data);
+        this.tbFallas.getItems().clear();
+        ObservableList<Falla> data = FXCollections.observableArrayList(fallas);
+        this.tbFallas.setItems(data);
+        System.out.println(fallas);
     }
     
     public void comprobarConexion(boolean isConnected){

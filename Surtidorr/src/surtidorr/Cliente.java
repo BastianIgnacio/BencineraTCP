@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import sucursal.Falla;
 import sucursal.Informacion;
 import sucursal.Transaccion;
 
@@ -61,34 +62,26 @@ public class Cliente implements Runnable {
 
     public void crearConexion()  {
         this.s = null;
+        int c = 0;
         try {
             // getting localhost ip 
             // establish the connection with server port 5056 
-            s = new Socket("25.18.101.131", 6000);
+            s = new Socket(SharedInfo.ipSucursal, 6000);
             this.isConnected(true);
-            
             dos = new ObjectOutputStream(s.getOutputStream());
             System.out.println("enviar id surtidor");
             dos.writeObject("ID:"+SharedInfo.idSurtidor);
             dos.flush();
-            
             System.out.println("INFO: Conectado a sucursal");
             
-            if (pendiente!= null){
-                this.enviarTransaccion(pendiente);
-                System.out.println("se mando pendiente");
-                pendiente = null;
-            }
-            
             while (true) {
+                
                 if(1==2){
                     break;
                 }
-                
                     //if(in.available()>0) {
                     ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-                        Object obj = in.readObject();
-                        //System.out.println("Objeto leido " + obj.getClass().toString());
+                    Object obj = in.readObject();
 
                     if (obj instanceof Informacion) {
                         Informacion info = (Informacion) obj;
@@ -98,6 +91,15 @@ public class Cliente implements Runnable {
                         Transaccion trans = (Transaccion) obj;
                         System.out.println(trans);
                         System.out.println((String) din.readObject());
+                    } else if(obj instanceof ArrayList){
+                        ArrayList<Falla>filtrados = new ArrayList<>();
+                        ArrayList<Falla> fallas = (ArrayList<Falla>)obj;
+                        for (Falla falla : fallas) {
+                            if(falla.getSurtidor().equals(SharedInfo.idSurtidor)){
+                                filtrados.add(falla);
+                            }
+                        }
+                        this.controlador.updateFallas(filtrados);
                     }
                     if (obj instanceof String) {
                         String str = (String) obj;
@@ -107,9 +109,7 @@ public class Cliente implements Runnable {
                             dos.flush();
                         }
                         System.out.println("Mensaje: " + (String) obj);
-
                     }
-                   
             }
             // closing resources 
             dos.close();
@@ -139,6 +139,17 @@ public class Cliente implements Runnable {
         }
     }
 
+    public void obtenerFallas(){
+        try {
+            dos = new ObjectOutputStream(s.getOutputStream());
+            dos.writeObject("obtener_fallas");
+            dos.flush();
+            System.out.println("INFO: Obteniendo informacion de fallas.");
+        } catch (IOException ex) {
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
     public void isConnected(boolean con) {
        boolean conectado = con;
        this.controlador.comprobarConexion(conectado);
