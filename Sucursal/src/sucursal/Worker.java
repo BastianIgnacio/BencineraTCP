@@ -42,7 +42,6 @@ public class Worker extends Thread {
     FXMLDocumentController controlador;
     int id = 0;
     String idSurtidor;
-    
 
     // Constructor 
     public Worker(Socket s, BaseDeDatos base, FXMLDocumentController cont) {
@@ -84,6 +83,7 @@ public class Worker extends Thread {
         String received = "",
                 toreturn = "";
         if (this.s.isConnected()) {
+
             System.out.println("[" + this.s.getInetAddress().getHostAddress() + "] Surtidor Conectado.");
             ArrayList<String> ips = this.getLocalIPs();
             for (String ip : ips) {
@@ -97,9 +97,26 @@ public class Worker extends Thread {
             }
             System.out.println("ip entrante: " + id);
         }
+        
+        
+        try {
+            ObjectOutputStream dos;
+            dos = new ObjectOutputStream(s.getOutputStream());
+            ArrayList<Falla> fallas = bd.getFallasSurtidor();
+            System.out.println(fallas.size());
+            dos.writeObject(fallas);
+            dos.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                            
 
+        
         while (true) {
+
             try {
+               
+
                 if (!this.s.isClosed()) {
                     ObjectInputStream in = new ObjectInputStream(s.getInputStream());
                     //if(in.available()>0) {
@@ -109,14 +126,14 @@ public class Worker extends Thread {
                     if (obj instanceof String) {
                         String str = (String) obj;
                         System.out.println("Mensaje: " + (String) obj);
-                        
-                         if(str.contains("ID:")){
-                                String[] nombre = str.split(":");
-                                System.out.println("id del surtidor: " + nombre[1]);
-                                this.idSurtidor = nombre[1];
-                               
-                         }
-                         
+
+                        if (str.contains("ID:")) {
+                            String[] nombre = str.split(":");
+                            System.out.println("id del surtidor: " + nombre[1]);
+                            this.idSurtidor = nombre[1];
+                            
+                        }
+
                         switch (str) {
                             case "actualizar_precios":
                                 ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
@@ -147,6 +164,8 @@ public class Worker extends Thread {
 
                         System.out.println(">" + trans);
                     }
+                    
+                   
 
                     ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
                     out.writeObject("OK");
@@ -161,13 +180,13 @@ public class Worker extends Thread {
                     System.out.println("ERROR: No se puede cerrar la conexion con el socket " + getAddress());
                 }
                 System.out.println("ERROR: La sucursal " + getAddress() + " se cerro inesperadamente1.");
-                
-                if (InfoSurtidor.caida == false){
+
+                if (InfoSurtidor.caida == false) {
                     InfoSurtidor.comienzo = new Timestamp(new java.util.Date().getTime());
-                    InfoSurtidor.refSurtidor =  this.idSurtidor;
+                    InfoSurtidor.refSurtidor = this.idSurtidor;
                     InfoSurtidor.caida = true;
                 }
-                
+
             } catch (EOFException eofex) {
                 try {
                     this.s.close();

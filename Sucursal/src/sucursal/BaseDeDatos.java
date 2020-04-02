@@ -413,4 +413,27 @@ public class BaseDeDatos {
         }
         System.out.println("INFO: Tablas creadas con exto");
     }
+    
+    public ArrayList<Falla> getFallasSurtidor() {
+        ArrayList<Falla> fallas = new ArrayList();
+        Statement stmt = null;
+        try {
+            stmt = this.con.createStatement();
+            String sql = "SELECT * FROM Fallas";
+
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+
+                Falla falla = new Falla();
+                falla.setCaida(rs.getTimestamp(2));
+                falla.setReconexion(rs.getTimestamp(3));
+                falla.setSurtidor(rs.getString(4));
+                fallas.add(falla);
+
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return fallas;
+    }
 }

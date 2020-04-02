@@ -64,13 +64,16 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Transaccion,Integer> tctotal;
     @FXML
     private TableColumn<Transaccion,String> tcsurtidor;
+    @FXML
+    private Button botonConexion;
    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Cliente cliente = new Cliente();
+        cliente.setControler(this);
         Thread c = new Thread(cliente);
-        //c.start();
+        c.start();
         this.iniciarServidor();
         
         BaseDeDatos bdatos = BaseDeDatos.crearInstancia();
@@ -147,5 +150,21 @@ public class FXMLDocumentController implements Initializable {
         this.tablaTransacciones.setItems(data);
         
     
+    }
+    
+    public void comprobarConexion(boolean isConnected){
+        if (!isConnected == true){
+           
+            //botonConexion.setText("Desconectado");
+            botonConexion.setStyle("-fx-base: red;");
+            
+        }
+        else{
+            //botonConexion.setText("Conectado");
+         
+            botonConexion.setStyle("-fx-base: green;");
+            
+        }
+        
     }
 }

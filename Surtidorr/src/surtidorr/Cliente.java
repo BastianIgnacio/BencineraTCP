@@ -64,7 +64,7 @@ public class Cliente implements Runnable {
         try {
             // getting localhost ip 
             // establish the connection with server port 5056 
-            s = new Socket("25.64.202.245", 6000);
+            s = new Socket("25.18.101.131", 6000);
             this.isConnected(true);
             
             dos = new ObjectOutputStream(s.getOutputStream());

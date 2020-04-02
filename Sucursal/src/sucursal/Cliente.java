@@ -23,10 +23,14 @@ public class Cliente implements Runnable{
     String ipPrimaria = InfoSurtidor.ipPrimaria;
     String ipSecundaria = InfoSurtidor.ipSecundaria;
     String nombre = InfoSurtidor.nombreSucursal;
+    FXMLDocumentController controlador;
     
     int contador = 1;
     BaseDeDatos bd;
    
+    public void setControler(FXMLDocumentController cont){
+        this.controlador = cont;
+    }
 
     public Cliente() {
         this.bd = BaseDeDatos.crearInstancia();
@@ -40,8 +44,8 @@ public class Cliente implements Runnable{
     public void crearConexion(String ip) {
         Socket s = null;
         try {
-            s = new Socket(ip, 5000);
-
+            s = new Socket(ip,5000);
+            this.isConnected(true);
             ObjectOutputStream dos = null;
             ObjectInputStream din = null;
             dos = new ObjectOutputStream(s.getOutputStream());
@@ -76,6 +80,7 @@ public class Cliente implements Runnable{
             dos.close();
             din.close();
         } catch (ConnectException cntex) {
+            this.isConnected(false);
             try {
                 Thread.sleep(5000);
                 InfoSurtidor.intentoConexion++;
@@ -93,6 +98,7 @@ public class Cliente implements Runnable{
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (IOException ioex) {
+            this.isConnected(false);
             try {
                 Thread.sleep(5000);
                 InfoSurtidor.intentoConexion++;
@@ -114,7 +120,13 @@ public class Cliente implements Runnable{
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
+     public void isConnected(boolean con) {
+       boolean conectado = con;
+       this.controlador.comprobarConexion(conectado);
+    }
+    
    
    
     
