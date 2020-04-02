@@ -63,7 +63,9 @@ public class Cliente implements Runnable{
                 if (obj instanceof Informacion) {
                     Informacion info = (Informacion) obj;
                     InfoSurtidor.info = info;
+                    FileHandler.saveInfo();
                     System.out.println(info);
+                    this.controlador.enviarPrecios();
                 }
                 else if (obj instanceof String) {
                     String str = (String) obj;

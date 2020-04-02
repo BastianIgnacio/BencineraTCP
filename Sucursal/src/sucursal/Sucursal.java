@@ -38,6 +38,7 @@ public class Sucursal extends Application {
              System.out.println("ERROR: No se puede abrir el archivo de configuracion.");
              System.exit(0);
         }
+        FileHandler.loadInfo();
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         BaseDeDatos bd = BaseDeDatos.crearInstancia();
         //bd.crearTabla();

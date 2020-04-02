@@ -57,6 +57,10 @@ public class Servidor implements Runnable {
             }
         }
     }
+     
+     public ArrayList<Worker> getSurtidores(){
+         return this.surtidores;
+     }
     
     
     @Override

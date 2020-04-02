@@ -42,7 +42,7 @@ public class Worker extends Thread {
     FXMLDocumentController controlador;
     int id = 0;
     String idSurtidor;
-
+    
     // Constructor 
     public Worker(Socket s, BaseDeDatos base, FXMLDocumentController cont) {
         this.s = s;
@@ -58,6 +58,18 @@ public class Worker extends Thread {
 
     public String getAddress() {
         return this.address;
+    }
+    
+        
+    public void enviar(){
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(s.getOutputStream());
+            out.writeObject(InfoSurtidor.info);
+            out.flush();
+        } catch (IOException ex) {
+            System.out.println("ERROR: No se pudo enviar los precios actualizados.");
+        }
     }
 
     public void check() {

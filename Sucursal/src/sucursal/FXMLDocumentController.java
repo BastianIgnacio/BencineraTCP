@@ -66,7 +66,7 @@ public class FXMLDocumentController implements Initializable {
     private TableColumn<Transaccion,String> tcsurtidor;
     @FXML
     private Button botonConexion;
-   
+    Servidor server;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -131,10 +131,17 @@ public class FXMLDocumentController implements Initializable {
     
     private void iniciarServidor()
     {
-        Servidor s = new Servidor();
-        s.setControlador(this);
-        Thread a = new Thread(s);
+        server = new Servidor();
+        server.setControlador(this);
+        Thread a = new Thread(server);
         a.start();
+    }
+    
+    
+    public void enviarPrecios(){
+        for (Worker surtidor : this.server.getSurtidores()) {
+            surtidor.enviar();
+        }
     }
     
   
