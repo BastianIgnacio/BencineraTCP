@@ -118,6 +118,13 @@ public class Worker extends Thread {
             System.out.println(fallas.size());
             dos.writeObject(fallas);
             dos.flush();
+            
+            ObjectOutputStream op;
+            op = new ObjectOutputStream(s.getOutputStream());
+            Informacion info = InfoSurtidor.info;
+            op.writeObject(info);
+            op.flush();
+            
         } catch (IOException ex) {
             Logger.getLogger(Worker.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -163,7 +170,7 @@ public class Worker extends Thread {
                         Transaccion trans = (Transaccion) obj;
                         System.out.println(trans.getTipoCombustible());
 
-                        this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), id);
+                        this.bd.insertTransaccion(trans.getTime(), trans.getTipoCombustible(), trans.getLitros(), trans.getPrecioPorLitro(), trans.getTotal(), id,this.idSurtidor);
                         //out.writeObject(InfoSurtidor.info);
                         this.actualizarCantidades(trans);
 

@@ -189,11 +189,11 @@ public class BaseDeDatos {
         }
     }
 
-    public void insertTransaccion(Timestamp fecha, String tipoCombustible, long litros, long precioLitro, long total, int surtidor) {
+    public void insertTransaccion(Timestamp fecha, String tipoCombustible, long litros, long precioLitro, long total, int sucursal,String surtidor) {
         Statement stmt = null;
         PreparedStatement ps = null;
         try {
-            String str = "INSERT INTO Transaccion VALUES(?,?,?,?,?,?,?)";
+            String str = "INSERT INTO Transaccion VALUES(?,?,?,?,?,?,?,?)";
             ps = con.prepareStatement(str);
             ps.setInt(1, getIdTransaccion());
             ps.setTimestamp(2, fecha);
@@ -201,7 +201,8 @@ public class BaseDeDatos {
             ps.setLong(4, litros);
             ps.setLong(5, precioLitro);
             ps.setLong(6, total);
-            ps.setString(7, String.valueOf(surtidor));
+            ps.setInt(7, sucursal);
+            ps.setString(8, String.valueOf(surtidor));
             if (ps.execute()) {
                 System.out.println("INFO: Transaccion insertada exitosamente.");
             }

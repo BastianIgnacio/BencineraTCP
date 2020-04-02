@@ -95,10 +95,12 @@ public class FXMLDocumentController implements Initializable {
         
         if(event.getSource()==this.cargarButton)
         {
+            
             System.out.println(this.comboBoxTipo.getValue());
             Transaccion t = this.crear(this.comboBoxTipo.getValue(),parseInt(textFieldLitros.getText()));
-            cliente.enviarTransaccion(t);
             this.insertarTransaccionTabla(t);
+
+            cliente.enviarTransaccion(t);
         }
         if(event.getSource()==this.boton93)
         {
@@ -195,14 +197,6 @@ public class FXMLDocumentController implements Initializable {
         this.tc_freconexion.setCellValueFactory(new PropertyValueFactory<>("reconexion"));
         this.tc_tcaida.setCellValueFactory(new PropertyValueFactory<>("tiempo_caido"));
         
-        
-        
-        
-        
-        
-      
-        
-       
        // Filto para que en texfield solo acepte numeros  
        UnaryOperator<Change> integerFilter = change -> {
        String newText = change.getControlNewText();
